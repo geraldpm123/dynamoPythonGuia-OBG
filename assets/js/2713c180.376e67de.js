@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[5210],{260:s=>{s.exports=JSON.parse('{"label":"docusaurus","permalink":"/dynamoPythonGuia-OBG/blog/tags/docusaurus","allTagsPath":"/dynamoPythonGuia-OBG/blog/tags","count":4,"unlisted":false}')}}]);

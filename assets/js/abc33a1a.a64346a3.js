@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[3458],{8356:a=>{a.exports=JSON.parse('{"label":"facebook","permalink":"/dynamoPythonGuia-OBG/blog/tags/facebook","allTagsPath":"/dynamoPythonGuia-OBG/blog/tags","count":1,"unlisted":false}')}}]);
