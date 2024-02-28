@@ -8,9 +8,9 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
-  favicon: 'img/favicon.ico',
+  title: 'Guía Dynamo Python',
+  tagline: 'Una guía del curso de Programación BIM',
+  favicon: 'img/OBG.ico',
 
   // Set the production url of your site here
   url: 'https://geraldpm123.github.io/',
@@ -20,8 +20,10 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'geraldpm123', // Usually your GitHub org/user name.
+  projectName: 'dynamoPythonGuia-OBG', // Usually your repo name.
+  deploymentBranch: 'gh-pages',
+  trailingSlash:false,
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -47,7 +49,7 @@ const config = {
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
-          showReadingTime: true,
+          showReadingTime: false,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
@@ -66,10 +68,10 @@ const config = {
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: 'My Site',
+        title: 'Python Dynamo',
         logo: {
           alt: 'My Site Logo',
-          src: 'img/logo.svg',
+          src: 'img/logo.png',
         },
         items: [
           {
@@ -78,10 +80,10 @@ const config = {
             position: 'left',
             label: 'Tutorial',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
+          /*{to: '/blog', label: 'Blog', position: 'left'},*/
           {
-            href: 'https://github.com/facebook/docusaurus',
-            label: 'GitHub',
+            href: 'https://www.youtube.com/@GeraldPachariMillio',
+            label: 'YouTube',
             position: 'right',
           },
         ],
@@ -102,38 +104,38 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                label: 'YouTube',
+                href: 'https://www.youtube.com/@GeraldPachariMillio',
               },
-              {
+              /*{
                 label: 'Discord',
                 href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
+              },*/
+              /*{
                 label: 'Twitter',
                 href: 'https://twitter.com/docusaurus',
-              },
+              },*/
             ],
           },
           {
             title: 'More',
             items: [
-              {
+              /*{
                 label: 'Blog',
                 to: '/blog',
-              },
+              },*/
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/geraldpm123',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} ObjectG, dev Gerald Pachari Millio`,
       },
       prism: {
-        theme: prismThemes.dracula,
-        darkTheme: prismThemes.dracula,
+        theme: prismThemes.oneDark,
+        darkTheme: prismThemes.github,
       },
     }),
 };
