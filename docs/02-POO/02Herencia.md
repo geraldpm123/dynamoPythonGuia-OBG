@@ -6,7 +6,7 @@ La herencia es otro concepto clave en POO. Permite que una clase herede atributo
 de otra clase. Esto fomenta la reutilización del código y la creación de jerarquías. Por ejemplo:
 
 <div style={{ textAlign: 'center' }}>
-  <img
+  <img  style={{ maxWidth: '600px'}}
   src={require('./img/diagramaClasesDispositivos.png').default}
   alt="diagramaClasesDispositivos"/>
 </div>
@@ -19,10 +19,11 @@ Luego la herencia se establece siendo **Dispositivo Class** la clase padre y el 
 Entonces cuando se tenga por ejemplo un objeto de **Celular Clase**, este tendrá las siguientes propiedades y métodos:
 
 <div style={{ textAlign: 'center' }}>
-  <img
+  <img  style={{ maxWidth: '300px'}}
   src={require('./img/objetoCelular1.png').default}
   alt="objetoCelular1"/>
 </div>
+
 
 Como se puede observar el objeto de la clase **Celular Class** tiene la propiedad ```anchoBanda``` y el método ```HacerLlamada()```, pero también ha heredado las propiedades ```tamanioPantalla``` y memoria, asi como el método ```Encender()```. Este comportamiento es gracias a la herencia de Clases.
 

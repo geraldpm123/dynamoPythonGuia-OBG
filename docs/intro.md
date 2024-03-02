@@ -7,7 +7,7 @@ sidebar_position: 1
 En esta guía se aborda los temas vistos en clase del curso de **Programación BIM** modulo de Dynamo
 Se incluyen teoría y ejemplos prácticos tomados del curso.
 
-:::tip[Importante]
+:::info[Importante]
 
 Este material debe seguirse junto con el curso de **Programación BIM** para complementar su aprendizaje
 <div style={{ textAlign: 'right' }}>
