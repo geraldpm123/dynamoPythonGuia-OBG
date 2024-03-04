@@ -112,7 +112,21 @@ Estas bibliotecas C# que comúnmente utilizaremos en nuestros Python Script tene
 * **RevitServices:** Biblioteca qie contiene clases para acceso de variables de documento de Revit y procesos como ```DocumentManager``` y ```TransactionManager```.
 * **RevitNodes:** Biblioteca que contiene clases de extension para convertir objetos de Dynamo hacia Revit y viceversa.
 
-Para mostrar como importamos bibliotecas, mostramos el siguiente código:
+La importación de bibliotecas de C# a traves de la biblioteca ```clr``` tiene la siguiente sintaxis:
+
+```py
+import clr
+
+clr.AddReference([nombre_Biblioteca])
+from [Namespace] import [Clase]
+```
+
+En esta sintaxis se debe proveer la siguiente información:
+* **```[nombre_Biblioteca]```:** ```string``` del nombre de la *Biblioteca* que contiene a la Clase
+* **```[Namespace]```:** Nombre del *Namespace* completo de la Clase a usar
+* **```[Clase]```:** Nombre de la *Clase* (se puede usar ```*``` para indicar que se cargará todas las clases existentes del Namespace)
+
+Para mostrar como importamos bibliotecas, mostramos el siguiente código de ejemplo:
 ```py
 # Importación de bibliotecas
 import sys
@@ -156,7 +170,7 @@ OUT = 0
 
 ## 4.4. Metodos Estaticos para instanciar un objeto
 
-En C# (recordemos que la documentacion esta en este lenguaje), los métodos estáticos se definen con la palabra clave ```static``` y pertenecen a la clase en lugar de a una instancia específica de la clase. Esto significa que pueden ser invocados sin necesidad de crear una instancia de la clase.
+En C# (recordemos que la documentación esta en este lenguaje), los métodos estáticos se definen con la palabra clave ```static``` y pertenecen a la clase en lugar de a una instancia específica de la clase. Esto significa que pueden ser invocados sin necesidad de crear una instancia de la clase.
 
 Para utilizar un método estático en python, simplemente lo llamas utilizando el nombre de la clase seguido de un punto y luego el nombre del método.
 
