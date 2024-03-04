@@ -26,59 +26,230 @@ es una forma visual que permite a los usuarios interactuar con un programa media
 
 La Revit API es una interfaz de programación de aplicaciones (API, por sus siglas en inglés) proporcionada por Autodesk para  Autodesk Revit. 
 
+:::info[]
+
 La API de Revit permite a los desarrolladores crear scripts, complementos y aplicaciones personalizadas que pueden interactuar con los modelos de Revit y realizar una variedad de tareas automatizadas. Esto incluye la creación, modificación y eliminación de elementos del modelo, la generación de informes personalizados, el intercambio de datos con otros sistemas y la automatización de flujos de trabajo específicos.
 
-
-
-## 1.1. Clase
-
-En POO, una clase es una plantilla para crear objetos, la figura antes mostrada seria la plantilla para cualquier objeto **Celular** que existe o se creará. En este sentido los objetos son instancias que pertenecen a una clase especifica. 
-
-Es asi que todo objeto tiene cada una de las propiedades y métodos establecidos en la plantilla de su respectiva Clase.
-
-:::tip[Termino Técnico]
-
-Cuando creamos un objeto de una determinada Clase decimos que estamos instanciando la clase, es decir, se está
-creando un objeto perteneciente a una Clase en especifico
-
 :::
 
-:::tip[Atributos y Métodos]
+## 1.3. Enumeration Class
 
-Los **atributos** son variables asociadas a un objeto, mientras que los **métodos** son funciones asociadas a la clase. En el ejemplo anterior, ```TamanioPantalla``` y ```EspacioMemoria``` son atributos, y ```EncenderCelular()``` es un método.
+En `C#`, una enumeración (también conocida como `enum`) es un tipo de datos que permite definir un conjunto de constantes con nombre. Estas constantes representan valores discretos y específicos que son útiles cuando necesitas representar un conjunto fijo de opciones o estados en tu código.
 
-:::
+En terminos simples podemos decir que una enum es una clase especail que no tiene metodos, no tiene propiedades y practicamente es una lisrta de objetos prestablecida.
 
-Basándonos en el ejemplo anterior podemos tener muchos objetos pertenecientes a la clase **Celular** y cada uno de ellos tendrán las propiedades y métodos establecidos según la Clase.
+Para usar una de las opciones de un enum se debe seguir la siguiente sintaxis:
+```py
+import clr
 
-<div style={{ textAlign: 'center' }}>
-  <img
-  src={require('./img/InterfacesRevit.png').default}
-  alt="InterfacesRevit"/>
-</div>
+clr.AddReference([nombre_Biblioteca])
+from [Namespace] import [nombre_Enum]
+
+
+objetoEnum = [nombre_Enum].[nombre_Opcion]
+```
+
+donde :
+* **`nombre_Biblioteca`:** Nombre la biblioteca a la cual pertenece el `enum`
+* **`Namespace`:** Nombre del namespace del `enum`
+* **`nombre_Enum`:** Nombre del `enum`
+* **`nombre_Opcion`:** Nombre de la opción del `enum`
 
 <details>
-  <summary>Ejemplo</summary>
-  Este es el contenido oculto que se mostrará cuando hagas clic en el `resumen`.
+  <summary>**Ejemplo Enum `TaskDialogIcon`**</summary>
+
+  En este ejemplo se muestra el uso del enum `TaskDialogIcon`, primero mostramos la documentación del mismo:
+
+<div style={{ textAlign: 'center' }}>
+  <img  style={{ maxWidth: '500px'}}
+  src={require('./img/ejemploEnumTaskDialogIcon.png').default}
+  alt="ejemploEnumTaskDialogIcon"/>
+</div>
+
+  Luego entonces usaríamos el enum de la siguiente manera:
+```py
+# Importación de bibliotecas
+import clr
+
+clr.AddReference("RevitAPIUI")
+from Autodesk.Revit.UI import TaskDialogIcon
+
+# Utilizando el icono de error del enum
+objetoEnum = TaskDialogIcon.TaskDialogIconError
+```
 </details>
 
-<details open>
-  <summary>Ejemplo 01</summary>
-  <p>Este contenido estará visible cuando se cargue la página.</p>
-</details>
+## 1.4. Ejemplo Practico Clase TaskDialog
+El siguiente ejemplo, muestra todo lo que hemos aprendido con relacion a las propiedades y metodos, usando la clase de Revit **TaskDialog**:
 
 <details open>
-  <summary>Ejemplo 01</summary>
-  <p>Este contenido estará visible cuando se cargue la página.</p>
-  
-  <!-- Aquí puedes introducir contenido Markdown -->
-  <p>Este es un párrafo en Markdown:</p>
+  <summary>**Ejemplo TaskDialog**</summary>
   
   ```py
-  # Título en Markdown
-  
-  - Lista 1
-  - Lista 2
+import clr
+
+clr.AddReference('RevitAPIUI')
+#from Autodesk.Revit.UI import TaskDialog, TaskDialogIcon, TaskDialogCommonButtons
+from Autodesk.Revit.UI import *
+
+
+# Puertos de entrada
+titulo = IN[0]
+contenido = IN[1]
+
+# Instanciando un objeto TaskDialog
+instanciaTaskDialog = TaskDialog("Este es un titulo inicial")
+
+# Modificar la propiedad "Title", "MainInstruction", "MainContent", "FooterText"
+instanciaTaskDialog.Title = titulo
+instanciaTaskDialog.MainInstruction = "Este seria un contenido 1"
+instanciaTaskDialog.MainContent = contenido
+instanciaTaskDialog.FooterText = "Este es pie de pagina"
+
+# Modificar la propiedad "EnableMarqueeProgressBar"
+instanciaTaskDialog.EnableMarqueeProgressBar = True
+
+# -----> Propiedades Enum <-----
+# Modificar la propiedad "MainIcon" --> TaskDialogIcon (Enum)
+instanciaTaskDialog.MainIcon = TaskDialogIcon.TaskDialogIconShield
+# Modificar la propiedad "CommonButtons" --> TaskDialogCommonButtons (Enum)
+instanciaTaskDialog.CommonButtons = TaskDialogCommonButtons.Ok
+
+# Llamamos al método "Show()"
+result = instanciaTaskDialog.Show()
+
+# Devolvemos el resultado que es "TaskDialogResult"
+OUT = result
   ```
-  $$f(x) = 5$$
+
 </details>
+
+
+## 1.5. Variables principales en Revit
+Anteriormente mencionamos que dentro de Revit todo lo que encontremos es un objeto perteneciente a una determinada clase,
+y en este contexto existe unos objetos comunes que estaremos usando a menudo, estos objetos pertenecen a las siguientes clases:
+
+* **`UIApplication`** : Un objeto que representa una sesión activa de la interfaz de usuario de Autodesk Revit, proporcionando acceso a métodos de personalización de la interfaz de usuario, eventos, la ventana principal y el documento activo.
+* **`Application`** : Un objeto que representa la aplicación Autodesk Revit, proporcionando acceso a documentos, opciones y otros datos y configuraciones de la aplicación en toda la aplicación.
+* **`UIDocument`** : Un objeto que representa un proyecto de Autodesk Revit abierto en la interfaz de usuario de Revit.
+* **`Document`** : Un objeto que representa un proyecto de Revit abierto.
+
+
+```py
+import clr
+
+clr.AddReference("RevitServices")
+from RevitServices.Persistence import DocumentManager
+
+# Principales variables que tal vez usemos
+uiapp = DocumentManager.Instance.CurrentUIApplication #---> UIApplication
+app = uiapp.Application #---> Application
+uidoc = DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument #---> UIDocument
+doc = DocumentManager.Instance.CurrentDBDocument #---> Document
+```
+
+## 1.7. Uso de RevitLookup
+
+
+## 1.8. Plantilla .py para un Python Script
+
+En nuestros Python Scripts la mayoría de veces tendremos código repetitivo, por lo que conviene tener una plantilla con este código repetitivo, de forma tal que cuando editemos nuestro nodo Python Script, podamos borrar lo que no necesitemos y quedarnos con lo que si.
+Dynamo permite realizar estas configuraciones para ello podemos ingresar al [Dyanmo Primer](https://primer.dynamobim.org/10_Custom-Nodes/10-6_Python-Templates.html) para obtener mayor información.
+
+Aqui te dejamos una plantilla que normalmente utilizamos:
+
+```py
+import sys
+import clr
+import math
+
+clr.AddReference('System')
+from System.Collections.Generic import List
+
+# Import Geometry dynamo
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+from Autodesk.DesignScript.Geometry import Curve as CurvaDynamo
+
+# import DCCoreNodes
+clr.AddReference('DSCoreNodes')
+import DSCore
+from DSCore import *
+
+# Import Revit API
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import *
+from Autodesk.Revit.DB import Curve as CurvaRevit
+from Autodesk.Revit.DB.Architecture import *
+from Autodesk.Revit.DB.Structure import *
+
+# Import Revit APIUI
+clr.AddReference('RevitAPIUI')
+from Autodesk.Revit.UI import *
+
+# import Revit Nodes and extensions
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+"""
+#Conversiones de Objetos de Revit a Dynamo y Viceversa
+#---------Revit a Dynamo
+#Elements
+Element.ToDSType(bool); #true if it's an element generated by Revit
+#Geometry
+XYZ.ToPoint() > Point
+XYZ.ToVector() > Vector
+Point.ToProtoType() > Point
+List<XYZ>.ToPoints() > List<Point>
+UV.ToProtoType() > UV
+Curve.ToProtoType() > Curve
+CurveArray.ToProtoType() > PolyCurve
+PolyLine.ToProtoType() > PolyCurve
+Plane.ToPlane() > Plane
+Solid.ToProtoType() > Solid
+Mesh.ToProtoType() > Mesh
+IEnumerable<Mesh>.ToProtoType() > Mesh[]
+Face.ToProtoType() > IEnumerable<Surface>
+Transform.ToCoordinateSystem() > CoordinateSystem
+BoundingBoxXYZ.ToProtoType() > BoundingBox
+
+#---------Dynamo a Revit
+#Elements
+Element.InternalElement
+#Geometry
+Point.ToRevitType() > XYZ
+Vector.ToRevitType() > XYZ
+Plane.ToPlane() > Plane
+List<Point>.ToXyzs() > List<XYZ>
+Curve.ToRevitType() > Curve
+PolyCurve.ToRevitType() > CurveLoop
+Surface.ToRevitType() > IList<GeometryObject>
+Solid.ToRevitType() > IList<GeometryObject>
+Mesh.ToRevitType() > IList<GeometryObject>
+CoordinateSystem.ToTransform() > Transform
+CoordinateSystem.ToRevitBoundingBox() > BoundingBoxXYZ
+BoundingBox.ToRevitType() > BoundingBoxXYZ
+"""
+
+
+# Import Document Manager and TransactionManager
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+# Principales variables que tal vez usemos
+uiapp = DocumentManager.Instance.CurrentUIApplication
+app = uiapp.Application
+doc = DocumentManager.Instance.CurrentDBDocument
+uidoc = DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument
+
+# Utilización de Transacciones
+TransactionManager.Instance.EnsureInTransaction(doc)
+
+TransactionManager.Instance.TransactionTaskDone()
+
+OUT = 0
+```

@@ -5,6 +5,10 @@ authors: [gerald]
 tags: [ProtoGeometry, Python, Dynamo]
 ---
 
+Aqui mostramos algunos ejemplos realizados con la Biblioteca ProtoGeometry
+
+<!--truncate-->
+
 ## Ejemplo 01: Edificio Torcido
 El script que se busca programar con un Python Script es el siguiente:
 
