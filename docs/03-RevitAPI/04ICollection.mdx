@@ -1,0 +1,36 @@
+---
+sidebar_position: 4
+---
+import CodeBlock from '@theme/CodeBlock';
+
+import ej_deleteICollection from '!!raw-loader!./codigos/04ICollection/ej_deleteICollection.py';
+
+
+# 4. ICollection
+
+Recordemos que en el uso de la API de Revit, es muy comun el lenguaje C#, por ello algunos objetos no se encuentran como tal en Python, uno de estos son los denominados `ICollection`.
+Por ejemplo el siguiente metodo muestra como arguemntos un objeto de tipo `ICollection`:
+
+<div style={{ textAlign: 'center' }}>
+  <img
+  src={require('./img/deleteICollection.png').default}
+  alt="deleteICollection"/>
+</div>
+
+A simple vista los `ICollection` parecen ser listas de Python, pero si ejecutamos ese metodo con una lista de Python, 
+ocurrira un error. Entonces hay que convertir nuestra lista de Python en un `ICollection`, por ejemplo:
+
+<details>
+  <summary>**Ejemplo: Eliminar Elementos**</summary>
+
+  En este ejemplo se muestra como obtener eliminar un conjunto de Elementos
+
+  <CodeBlock language="py">{ej_deleteICollection}</CodeBlock>
+
+</details>
+
+## 4.1. Ejercicios Propuestos
+* Crear un Python Script que que cree un grupo, a partir de un conjunto de elementos, utilizar la el metodo .
+* Crear un Python Script que que oculte temporalemnte un conjunto de elementos en la vista activa, utilizar el metodo `HideElements()` de la clase `View`.
+
+

@@ -1,0 +1,89 @@
+---
+sidebar_position: 6
+---
+import CodeBlock from '@theme/CodeBlock';
+
+import ej_cotasLinea from '!!raw-loader!./codigos/intermediate/ej_cotasLinea.py';
+
+# 6. Ejemplos Intermedio Avanzados
+
+
+<details>
+  <summary>**Ejemplo: Pintado Aleatorio de Muros**</summary>
+
+  En este ejemplo como pintar un conjunto de elementos de forma aleatoria en la Vista Activa.
+  ```py
+elementos = UnwrapElement(IN[0])
+
+for elem in elementos:
+    colorRandom = Color(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+
+
+  ```
+  {/* <CodeBlock language="py">{ej_cotasLinea}</CodeBlock> */}
+</details>
+
+<details>
+  <summary>**Ejemplo: Crear Cota para una Linea**</summary>
+
+  En este ejemplo se muestra como eliminar un unico elemento.
+  <CodeBlock language="py">{ej_cotasLinea}</CodeBlock>
+</details>
+
+<details>
+  <summary>**Ejemplo: Crear Cota para un Muro**</summary>
+
+  En este ejemplo se muestra como eliminar un unico elemento.
+  <CodeBlock language="py">{ej_cotasLinea}</CodeBlock>
+</details>
+
+<details>
+  <summary>**Ejemplo: Alinear Horizontalmente TextNotes**</summary>
+
+  En este ejemplo se muestra como alinear varios TextNotes ingresados a un PythonScript
+  {/* <CodeBlock language="py">{ej_cotasLinea}</CodeBlock> */}
+</details>
+
+<details>
+  <summary>**Ejemplo: Copiar Filtros de Visibilidad de uan vista a otra**</summary>
+
+  En este ejemplo se muestra como copiar los filtros y modificaciones de visibilida de una vista a otra.
+```py
+'''
+COPY AND PASTE FILTERS - VIEW TO VIEWS
+'''
+#__author__ = 'min.naung/mgjean @https://twentytwo.space/contact'
+# COPY PASTE FILTERS
+
+import clr
+clr.AddReference("RevitAPI")
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitServices")
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+doc = DocumentManager.Instance.CurrentDBDocument
+
+# Puertos de entrada
+vistaCopiado = UnwrapElement(IN[0]) # Vista d ela cual se va copiar los filtros
+vistaPegado = IN[1] # Vista en la cual se va pegar los filtros
+
+TransactionManager.Instance.EnsureInTransaction(doc)
+# iteramos sobre cada Id de la vista de copiado
+for id in vistaCopiado.GetFilters():
+    # Filter override
+    vistaPegado.SetFilterOverrides(id,vistaCopiado.GetFilterOverrides(id))
+    # Filter visibility
+    vistaPegado.SetFilterVisibility(id,vistaCopiado.GetFilterVisibility(id))
+TransactionManager.Instance.TransactionTaskDone()
+
+OUT = vistaPegado
+```
+  {/* <CodeBlock language="py">{ej_cotasLinea}</CodeBlock> */}
+</details>
+
+
+## 6.1. Ejercicios Propuestos
+* Crear un Python Script que cree cotas de largo y ancho para una seccion de viga.
+* Crear un Python Script que aline ViewPorts de un plano

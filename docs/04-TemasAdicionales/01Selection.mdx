@@ -1,0 +1,121 @@
+---
+sidebar_position: 1
+---
+
+import CodeBlock from '@theme/CodeBlock';
+
+import ej_getCurrentSelection from '!!raw-loader!./codigos/01Selection/ej_getCurrentSelection.py';
+import ej_pickObjects from '!!raw-loader!./codigos/01Selection/ej_pickObjects.py';
+import ej_pickByRectangle from '!!raw-loader!./codigos/01Selection/ej_pickByRectangle.py';
+import ej_pickObjectWallFilter from '!!raw-loader!./codigos/01Selection/ej_pickObjectWallFilter.py';
+import ej_selOrdBasica from '!!raw-loader!./codigos/01Selection/ej_selOrdBasica.py';
+import ej_selOrdColoreoTemporal from '!!raw-loader!./codigos/01Selection/ej_selOrdColoreoTemporal.py';
+
+
+# 1. Selección de elementos de Revit
+La mayoria de script de Dynamo requiere de una tarea previa de seleccion de elementos, esto ayuda al usuario a indicar que eleemntos seran usadois en un determiuado scirpt, para ello tenemos algunos nodos basico en Dyano, como por ejemplo el nodo `Select Model Element`, pero algunas veces se requeire una seleccion mas especifica y mas personalizada, en este capitulo aboradamos la clase `Selection` perteneciente al namespace `Autodesk.Revit.UI.Selection`.
+
+Para acceder a los metdoos que ofrece esta clase, necsitamos de una instancia de la clase `Selection`, esta clase no ofrece un constructor ni un metodo estatico para crerla, sino que este objeto ya existe en un proyecto, por l oque solo es necesario recuperarlo.
+Para recuperar este objeto lo haremos a traves del objeto uidoc, especificamente en su propiedad uidoc.Selection.
+
+A continuacion se muestra el codigo para obetenr este objeto Selection:
+```py
+# Importación de bibliotecas
+import clr
+
+clr.AddReference("RevitAPIUI")
+from Autodesk.Revit.UI.Selection import *
+
+# Import Document Manager
+clr.AddReference("RevitServices")
+from RevitServices.Persistence import DocumentManager
+
+uidoc = DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument
+
+# Obteniendo el objeto selection
+selection = uidoc.Selection
+```
+
+
+## 1.1. Ejemplos de aplicacion para la clase Selection
+
+A continuacion se muestran algunos ejemplos aplicativos para la seleccion comunes utilizando la clase Selection.
+
+
+<details>
+  <summary>**Ejemplo: Obtener seleccion actual**</summary>
+
+  En este ejemplo se muestra como obtener los elementos acutalmente seleccionados en el entorno de Revit
+
+  <CodeBlock language="py">{ej_getCurrentSelection}</CodeBlock>
+
+</details>
+
+
+<details>
+  <summary>**Ejemplo: Pick Objects**</summary>
+
+  En este ejemplo se muestra como seleccionar uno a uno los elementos dentro de un proyecto de Revit para obtenerlos en una lista.
+  <CodeBlock language="py">{ej_pickObjects}</CodeBlock>
+</details>
+
+<details>
+  <summary>**Ejemplo: Seleccionar Elementos por Rectangulo**</summary>
+
+  En este ejemplo se muestra como obtener los elementos encerrados en un rectangulo de seleccion.
+  <CodeBlock language="py">{ej_pickByRectangle}</CodeBlock>
+</details>
+
+## 1.2. Selection Filter
+Muchas veces cuando requieres que el usuario seleccione elementos u objetos en tiempo real como vimos en los ejemplos anteriores, es necesario definri un filtro de seleccion
+que no permita la seleccion de cualquier elemento, sino que permtia sol oal selecion de elementos que cumplan uan regla.
+En esos casos se puede usar la interfaz `ISelectionFilter`, una interfaz en terminos simples es una plantilla de Clase (para que tu puedas crear tu propia clase). Las interfaces pro lo general 
+te obligan a imoplementar uno o varios metodos con un nombre especifico. A continuacion mostramos un ejemplo basico:
+
+```py
+class filtroSeleccionMuros(ISelectionFilter):
+  def AllowElement(self, element):
+    if type(element) == Wall:
+      return True
+```
+
+<details>
+  <summary>**Ejemplo: Seleccionar solo Muros**</summary>
+
+  En este ejemplo se muestra como seleccionar elementos pertenecientes a la categoria muros.
+  <CodeBlock language="py">{ej_pickObjectWallFilter}</CodeBlock>
+</details>
+
+## 1.3. Seleccion Ordenada de Elementos
+Revit no tiene una herramienta predefinida para la seleccion de elementos de forma ordenada, es decir que nos devuelva una lista de elementos ordenadas conforme el uduario losselecciono.
+Pero podemos programar con aydua de Python la logica parallenar una lista conforme el usuario va seleccionando los elementos.
+A continuacion se muestra un ejemplo basico de esto:
+
+<details>
+  <summary>**Ejemplo: Seleccion Ordenada Basica**</summary>
+
+  En este ejemplo se muestra como seleccionar elementos de forma ordenada, de tal forma que se va llenando a una lista, hasta que el usuario haga algo diferentre a seleccion (ESC).
+  <CodeBlock language="py">{ej_selOrdBasica}</CodeBlock>
+</details>
+
+<details>
+  <summary>**Ejemplo: Seleccion Ordenada Coloreando Elementos**</summary>
+
+  En este ejemplo se muestra como seleccionar elementos pertenecientes a la categoria muros.
+  <CodeBlock language="py">{ej_selOrdColoreoTemporal}</CodeBlock>
+</details>
+
+
+
+
+## 1.4. Seleccion desde Vinculos
+
+## 1.5. Ejercicios
+* Cree un Python Script que permita la seleccion de elementos a partir de un rectangulo de seleccion, de elementos cuyo valor de parametro Comentarios empiece con la letra "A".
+* Cree un Python Script que permita la seleccion de elementos por pickObjeto, de elementos cuyo nombre de tipo contenga el string `"Con"`.
+* Cree un Python Script que establezca la seleccion de elementos, si es que tiene algun tipo de Warning.
+* Cree un Python Script que permita la seleccion de puertas que hayan sido Reflejadas **Mirrored**.
+
+
+
+

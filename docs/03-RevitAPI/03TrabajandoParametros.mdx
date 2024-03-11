@@ -16,13 +16,103 @@ import ej_setParameter2 from '!!raw-loader!./codigos/ej_setParameter2.py';
 
 <CodeBlock language="py">{ej_get_Parameter}</CodeBlock>
 
+## 3.2. Unidades de Revit
+Revit a nivel de usuari opermite trabajr con muchos tipos de unidads de acuerdo a la necesidad del usuario, por l oque tenemos una amplia serie de Unidades,
+pero internamente como sabemos los valores almacenados on de tipo `double` por lo que, es necesario saber en que unidades se gurdan estos valorese en Revit.
 
-## 3.2. Transacciones
+Revit internamente trabaja con las siguientes unidades:
 
-## 3.3. Modificación de parámetros
+| Unidad Base | Unidad en Revit |
+|----------|----------|
+| Longitud | Pie ($\mathrm{ft}$) |
+| Angulo | Radian |
+| Masa | Kilogramo ($\mathrm{kg}$) | 
+| Tiempo | Segundo ($\mathrm{s}$)| 
+| Intensidad de corriente | Amperio ($\mathrm{A}$)| 
+| Temperatura | Kelvin ($\mathrm{K}$)|
+| Intensidad Lumisosa | Candela ($\mathrm{cd}$) |
+
+Estas son las unidades basicas, y para las derivadas seria una combinacion de estas, por ejemplo las unidades de Fuerza seria: $\mathrm{kg \cdot ft/s^2}$
+
+Nosotros podemos manejar manualemnte las conversiones de datos, pero Revit API tambien cuenta con una clase que nos puede ayudar en ello:
+<details>
+  <summary>**Ejemplo: Conversion de Unidades Internas --> Deseada**</summary>
+
+  En este ejemplo vemso como ponemos usar la clase UnitUtils (Disponible para Revit 2022 o superior). para convertir unidades del sistema Interno a una undiad en especifico
+  ```py
+  import clr
+
+  areaFloor_ft2 = 
+
+  # Converitmos el area (ft^2) a (m2)
+  areaFloor_m2 = UnitUtils.ConvertToInternalUnits(areaFloor_ft2, UnitTypeId.SquareMeters)
+  ```
+  {/* <CodeBlock language="py">{ej_cotasLinea}</CodeBlock> */}
+</details>
+
+<details>
+  <summary>**Ejemplo: Conversion de Unidades Deseadas --> Internas**</summary>
+
+  En este ejemplo vemos como ponemos usar la clase UnitUtils (Disponible para Revit 2022 o superior). para convertir unidades especificas a unidades Internas
+  ```py
+  import clr
+
+  areaFloor_ft2 = 
+
+  # Converitmos el area (ft^2) a (m2)
+  areaFloor_m2 = UnitUtils.ConvertToInternalUnits(areaFloor_ft2, UnitTypeId.SquareMeters)
+  ```
+  {/* <CodeBlock language="py">{ej_cotasLinea}</CodeBlock> */}
+</details>
+
+## 3.3. Transacciones
+Dynamo proporciona su propio marco de transacciones para trabajar con RevitAPI. Esto significa que el script de Python se ejecutará en el contexto de una transacción general de Dynamo.
+
+Si está escribiendo código RevitAPI que requiere una transacción, puede utilizar el archivo .TransactionManager
+
+TransactionManager.EnsureInTransaction(): Inicializa la transacción de Dynamo
+TransactionManager.TransactionTaskDone(): Le dice a Dynamo que hemos terminado de usar la transacción
+TransactionManager.ForceCloseTransaction(): Indica a Dynamo que confirme la transacción activa. Esto es más lento que , por lo que solo úselo cuando realmente necesite cerrar 
+la transacción para que su script funcione.TransactionTaskDone()
+Para la secuencia de comandos, en cualquier lugar en el que normalmente crearía una nueva transacción de RevitAPI y, a continuación, llamaría a , utilizará en su lugar . 
+En cualquier lugar al que normalmente llamaría , en su lugar usará . En cualquier lugar en el que realmente necesite que finalice la transacción (situaciones en las que 
+desee operar en el modelo después de que se produzca la regeneración), puede usar .Transaction.Start()TransactionManager.EnsureInTransaction()Transaction.Commit()TransactionManager.TransactionTaskDone()TransactionManager.ForceCloseTransaction()
+
+```py
+import clr
+
+# Import DocumentManager and TransactionManager
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+# Get the document
+doc = DocumentManager.Instance.CurrentDBDocument
+
+# "Start" the transaction
+TransactionManager.Instance.EnsureInTransaction(doc)
+
+# Create a reference point (requires a transaction)
+refPt = doc.FamilyCreate.NewReferencePoint(XYZ(0, 0, 0))
+
+# "End" the transaction
+TransactionManager.Instance.TransactionTaskDone()
+```
+También puede utilizar las subtransacciones de RevitAPI junto con (pero no como sustituto) del archivo . 
+Las subtransacciones le darán la posibilidad de revertir los cambios. No hay forma de revertir la transacción principal de Dynamo.TransactionManager
+
+## 3.4. Modificación de parámetros
 
 <CodeBlock language="py">{ej_setParameter1}</CodeBlock>
 <CodeBlock language="py">{ej_setParameter2}</CodeBlock>
+
+## 3.5. Ejercicios Propuestos
+* Crear un Python Script que cambie el valor del parámetro **"Estructura"** a `activado` para un muro, usar get_Parameter() y Set().
+* Crear un Python Script que cambie el valor del parámetro **"Línea de ubicación"** a `Core Face Exterior` para un muro, usar get_Parameter() y Set().
+* Crear un Python Script que cambien el **nombre de una vista**.
+* Crear un Python Script que cambie el **nombre a una Rejilla** o Grilla.
+
 
 
 

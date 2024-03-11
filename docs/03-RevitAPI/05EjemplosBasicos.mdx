@@ -1,0 +1,117 @@
+---
+sidebar_position: 5
+---
+import CodeBlock from '@theme/CodeBlock';
+
+import ej_textNoteMayuscula from '!!raw-loader!./codigos/basic/ej_textNoteMayuscula.py';
+import ej_DisallowWallJoin from '!!raw-loader!./codigos/basic/ej_DisallowWallJoin.py';
+import ej_eliminarElemento from '!!raw-loader!./codigos/basic/ej_eliminarElemento.py';
+
+# 5. Ejemplos Basicos
+En esta seccion se muestra una serie de ejemplos basicos, para empezar a consolidar todo nuestro conocimiento
+
+
+<details>
+  <summary>**Ejemplo: Obtener Version de Revit**</summary>
+
+  En este ejemplo se muestra como obetenr la version de Revit que se esta ejecutando
+```py
+uiapp = DocumentManager.Instance.CurrentUIApplication
+
+# Gets revit version number
+rvtVersion = uiapp.Application.VersionNumber
+
+OUT = rvtVersion
+```
+  {/* <CodeBlock language="py">{ej_textNoteMayuscula}</CodeBlock> */}
+</details>
+
+<details>
+  <summary>**Ejemplo: Convertir a Maysuculas un TextNote**</summary>
+
+  En este ejemplo se muestra como convertir a mayusculas el contenido de un TextNote.
+  <CodeBlock language="py">{ej_textNoteMayuscula}</CodeBlock>
+</details>
+
+<details>
+  <summary>**Ejemplo: No Permitir Union Extremo de Muros**</summary>
+
+  En este ejemplo se muestra establecer la configruacion "No Permitir Union" en muros.
+  <CodeBlock language="py">{ej_DisallowWallJoin}</CodeBlock>
+</details>
+
+<details>
+  <summary>**Ejemplo: Eliminar Elemento Unico**</summary>
+
+  En este ejemplo se muestra como eliminar un unico elemento.
+  <CodeBlock language="py">{ej_eliminarElemento}</CodeBlock>
+</details>
+
+<details>
+  <summary>**Ejemplo: OverrideGraphic**</summary>
+
+  En este ejemplo se muestra como modificar la visibilidad de graficos de un elemento, paa ello usamos la clase `OverrideGraphicSettings` y el metodo `SetElementOverrides()`.
+```py
+vistaActiva = doc.ActiveView
+
+# Obtenemos el elemento del puerto de entrada IN[0]
+elemento = UnwrapElement(IN[0])
+# Creamos el Color
+color = Color(255,0,0)
+
+# Creamos un objeto "OverrideGraphicSettings"
+ovs = OverrideGraphicSettings() # Creado con su contructor
+# Establecemos algunas propiedades
+ovs.SetProjectionL
+
+# Pintando el elemento
+vistaActiva.SetElementOverrides(idElem, ovs)
+```
+  {/* <CodeBlock language="py">{ej_eliminarElemento}</CodeBlock> */}
+</details>
+
+<details>
+  <summary>**Ejemplo: Link DWG**</summary>
+
+  En este ejemplo se muestra como importar un DWG a nuestro Proyecto.
+```py
+import clr
+from Autodesk.Revit.DB import DWGImportOptions, ImportPlacement, ElementId, Transaction
+
+doc = __revit__.ActiveUIDocument.Document
+uidoc = __revit__.ActiveUIDocument
+
+options = DWGImportOptions()
+options.Placement = ImportPlacement.Origin # Insert Options
+link = clr.Reference[ElementId]()
+t = Transaction(doc)
+t.Start('Load Link')
+doc.Link(r"C:\Some\Path\YourDrawing.dwg", options, uidoc.ActiveView, link)
+t.Commit()
+```
+</details>
+
+
+
+<details>
+  <summary>**Ejemplo: Hide Buble in View**</summary>
+
+  En este ejemplo se muestra como unir geometria de dos elementos.
+```py
+grilla.HideBubbleInView(DatumEnds.End0, vistaActiva)
+```
+</details>
+
+<details>
+  <summary>**Ejemplo: Unir Geometria**</summary>
+
+  En este ejemplo se muestra como unir geometria de dos elementos.
+```py
+JoinGeometryUtils.JoinGeometry(doc, elemA, elemB)
+```
+</details>
+
+
+## 5.1. Ejercicios Propuestos
+* Crear un Python Script que establezca la confiuguracion de "No Permitir Union" en vigas.
+* Crear un Python Script que cambie la escala de la vista actual a 1/50 (Se puede hacer por Parmetros).

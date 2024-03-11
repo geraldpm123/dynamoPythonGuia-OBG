@@ -1,0 +1,18 @@
+---
+sidebar_position: 1
+---
+# 2. Filtrando Elementos
+## 2.1. FilteredElementCollector
+## 2.2. Ejemplos
+```py
+# get category object
+obj = System.Enum.ToObject(BuiltInCategory, cat.Id)
+
+# create category filter by category object
+filter = ElementCategoryFilter(obj)
+
+# collect filtered elements by category
+elements = FilteredElementCollector(doc).WherePasses(filter).WhereElementIsNotElementType().ToElements()
+```
+## 2.3. Ejercicios
+* Crear un Python Script que devulva FilledRegion by Name
