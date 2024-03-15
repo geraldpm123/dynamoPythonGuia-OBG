@@ -4,10 +4,36 @@
         <title>Guía Dynamo Python Blog</title>
         <link>https://geraldpm123.github.io/dynamoPythonGuia-OBG/blog</link>
         <description>Guía Dynamo Python Blog</description>
-        <lastBuildDate>Mon, 04 Mar 2024 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 15 Mar 2024 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>es</language>
+        <item>
+            <title><![CDATA[Apuntes sobre Angular]]></title>
+            <link>https://geraldpm123.github.io/dynamoPythonGuia-OBG/blog/apuntesAngular</link>
+            <guid>https://geraldpm123.github.io/dynamoPythonGuia-OBG/blog/apuntesAngular</guid>
+            <pubDate>Fri, 15 Mar 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[En este post hay apuntes del curso de Udemy de Fernando Herrera de Angular]]></description>
+            <content:encoded><![CDATA[<p>En este post hay apuntes del curso de Udemy de Fernando Herrera de Angular</p>
+<ol>
+<li>Instalar Node, para probar <code>node --version</code></li>
+<li>Instalar git, <code>git --version</code>
+<ul>
+<li><code>git config --global user.name "Gerald Pachari"</code></li>
+<li><code>git config --global user.email "geraldpm123@gmail.com"</code></li>
+</ul>
+</li>
+</ol>
+<h1>2. Creacion de Poryecto</h1>
+<ol>
+<li><code>ng version</code> para verificar que se tiene instalado angular cli</li>
+<li><code>ng new my-app --standalone false</code>, Angular &gt;17  -&gt; CSS -&gt; SSG/Prerendering: N</li>
+<li><code>cd my-app</code> -&gt; <code>ng serve -o</code> -&gt; N</li>
+</ol>
+<h1>2. Apuntes TypeScript</h1>]]></content:encoded>
+            <category>hello</category>
+            <category>angular</category>
+        </item>
         <item>
             <title><![CDATA[Ejemplos con ProtoGeometry]]></title>
             <link>https://geraldpm123.github.io/dynamoPythonGuia-OBG/blog/ejemplosProtoGeometry</link>
@@ -62,9 +88,10 @@
             <link>https://geraldpm123.github.io/dynamoPythonGuia-OBG/blog/instalaciones-Docusaurus</link>
             <guid>https://geraldpm123.github.io/dynamoPythonGuia-OBG/blog/instalaciones-Docusaurus</guid>
             <pubDate>Wed, 29 May 2019 00:00:00 GMT</pubDate>
-            <description><![CDATA[En este post se registra los cambios e intslaciones importantes hechas en Docusaurus]]></description>
-            <content:encoded><![CDATA[<p>En este post se registra los cambios e intslaciones importantes hechas en Docusaurus</p>
-<p>Usar <code>&lt;!--</code> <code>truncate</code> <code>--&gt;</code></p>
+            <description><![CDATA[En este post se registra los cambios e instalaciones importantes hechas en Docusaurus]]></description>
+            <content:encoded><![CDATA[<p>En este post se registra los cambios e instalaciones importantes hechas en Docusaurus
+Y el procesos inicial para
+Usar <code>&lt;!--</code> <code>truncate</code> <code>--&gt;</code></p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="1-leer-código-desde-archivos">1. Leer código desde archivos<a href="https://geraldpm123.github.io/dynamoPythonGuia-OBG/blog/instalaciones-Docusaurus#1-leer-c%C3%B3digo-desde-archivos" class="hash-link" aria-label="Enlace directo al 1. Leer código desde archivos" title="Enlace directo al 1. Leer código desde archivos">​</a></h2>
 <p>Solución obtenida desde <a href="https://stackoverflow.com/questions/73619703/import-and-show-file-content-in-mdx-code-blocks" target="_blank" rel="noopener noreferrer">stackOverFlow</a>
 En la documentaciones se debe hacer lo siguiente (instalaciones requeridas):
@@ -72,7 +99,30 @@ En la documentaciones se debe hacer lo siguiente (instalaciones requeridas):
 <p>Luego en un archivo mdx( en lugar de un md) poner el siguiente código:</p>
 <div class="language-mdx codeBlockContainer_Ckt0 theme-code-block" style="--prism-background-color:hsl(220, 13%, 18%);--prism-color:hsl(220, 14%, 71%)"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-mdx codeBlock_bY9V thin-scrollbar" style="background-color:hsl(220, 13%, 18%);color:hsl(220, 14%, 71%);text-shadow:0 1px rgba(0, 0, 0, 0.3)"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:hsl(220, 14%, 71%);text-shadow:0 1px rgba(0, 0, 0, 0.3)"><span class="token plain">import CodeBlock from '@theme/CodeBlock';</span><br></span><span class="token-line" style="color:hsl(220, 14%, 71%);text-shadow:0 1px rgba(0, 0, 0, 0.3)"><span class="token plain">import MyComponentSource from '!!raw-loader!./codigos/ejemplo1.py';</span><br></span><span class="token-line" style="color:hsl(220, 14%, 71%);text-shadow:0 1px rgba(0, 0, 0, 0.3)"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:hsl(220, 14%, 71%);text-shadow:0 1px rgba(0, 0, 0, 0.3)"><span class="token plain">&lt;CodeBlock language="py"&gt;{MyComponentSource}&lt;/CodeBlock&gt;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copiar código al portapapeles" title="Copiar" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="2-katex">2. Katex<a href="https://geraldpm123.github.io/dynamoPythonGuia-OBG/blog/instalaciones-Docusaurus#2-katex" class="hash-link" aria-label="Enlace directo al 2. Katex" title="Enlace directo al 2. Katex">​</a></h2>
-<p>En la documentaciones se debe hacer lo siguiente (instalaciones requeridas): <a href="https://docusaurus.io/docs/markdown-features/math-equations" target="_blank" rel="noopener noreferrer">Link de documentación</a></p>]]></content:encoded>
+<p>En la documentaciones se debe hacer lo siguiente (instalaciones requeridas): <a href="https://docusaurus.io/docs/markdown-features/math-equations" target="_blank" rel="noopener noreferrer">Link de documentación</a></p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="deployment">Deployment<a href="https://geraldpm123.github.io/dynamoPythonGuia-OBG/blog/instalaciones-Docusaurus#deployment" class="hash-link" aria-label="Enlace directo al Deployment" title="Enlace directo al Deployment">​</a></h2>
+<p>Para desplegar seguir los siguientes pasos:</p>
+<ol>
+<li>correr en la terminal <code>npm run build</code></li>
+<li>Crear Git <code>git init</code> -&gt; <code>git add .</code> -&gt; <code>git commit -m "commit inicial"</code></li>
+<li>Copiar las lineas de código de github luego de crear el repositorio, masomenos es: <code>git remote add origin ...</code></li>
+<li>Configuración en <code>docusaurus.config.js</code>
+<ul>
+<li><code>url: "https://geraldpm123.github.io/"</code></li>
+<li><code>baseUrl: "/nombre-repositorio"</code></li>
+</ul>
+</li>
+<li>Opcionalmente se puede probar lo generado en el "build", con <code>npm run serve</code></li>
+<li>La carpeta build es la que tiene todo para desplegar. Para github pages hacemos lo siguiente en <code>docusaurus.config.js</code>:<!-- -->
+<ul>
+<li><code>organizationName: "geraldpm123"</code></li>
+<li><code>projectName: "nombre-repositorio"</code></li>
+<li><code>deploymentBranch: "gh-pages"</code></li>
+<li><code>trailingSlash: false</code></li>
+</ul>
+</li>
+<li>En powershell colocamos: <code>cmd /C 'set "GIT_USER=geraldpm123" &amp;&amp; npm run deploy'</code>, opcionalmente podría funcionar copiar el contenido de build al branch <code>gh-pages</code>.</li>
+</ol>]]></content:encoded>
             <category>hello</category>
             <category>docusaurus</category>
         </item>
