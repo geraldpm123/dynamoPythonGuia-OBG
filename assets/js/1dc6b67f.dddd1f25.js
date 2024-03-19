@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[7244],{6978:e=>{e.exports=JSON.parse('{"label":"ProtoGeometry","permalink":"/dynamoPythonGuia-OBG/blog/tags/proto-geometry","allTagsPath":"/dynamoPythonGuia-OBG/blog/tags","count":1,"unlisted":false}')}}]);

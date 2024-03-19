@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[1991],{8372:e=>{e.exports=JSON.parse('{"label":"ReviAPI","permalink":"/dynamoPythonGuia-OBG/blog/tags/revi-api","allTagsPath":"/dynamoPythonGuia-OBG/blog/tags","count":1,"unlisted":false}')}}]);

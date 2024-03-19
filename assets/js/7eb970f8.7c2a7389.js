@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[4307],{5833:e=>{e.exports=JSON.parse('{"permalink":"/dynamoPythonGuia-OBG/blog/tags/proto-geometry","page":1,"postsPerPage":10,"totalPages":1,"totalCount":2,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);
