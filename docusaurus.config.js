@@ -90,9 +90,15 @@ const config = {
         items: [
           {
             type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
+            sidebarId: 'guiaDynamoBasic',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Dynamo I',
+          },
+          {
+            type: 'docSidebar',
+            sidebarId: 'guiaDynamoAvanzado',
+            position: 'left',
+            label: 'Dynamo II',
           },
           /*{to: '/blog', label: 'Blog', position: 'left'},*/
           {
@@ -150,6 +156,13 @@ const config = {
       prism: {
         theme: prismThemes.oneDark,
         darkTheme: prismThemes.github,
+        magicComments: [
+          {
+            className: 'code-block-error-line',
+            line: 'resaltado--next-line',
+            block: {start: 'resaltado-start', end: 'resaltado-end'},
+          },
+        ],
       },
     }),
 };

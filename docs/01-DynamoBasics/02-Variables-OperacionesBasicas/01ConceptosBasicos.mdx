@@ -1,0 +1,61 @@
+
+# 3. Conceptos Basicos
+## 3.1. Interfaz de usuario
+Dynamo es una poderosa herramienta de programación visual 
+que se utiliza en entornos de diseño, arquitectura, ingeniería 
+y construcción (AEC). Se destaca por su capacidad para crear scripts 
+y algoritmos que permiten la generación y manipulación paramétrica 
+de geometría, así como la *automatización de tareas repetitivas* 
+dentro de aplicaciones como Revit, Civil3D, Robot Structural Analysis 
+y otras plataformas de diseño.
+
+## 3.2. Nodos y Conexiones
+En la programación visual, los nodos son los bloques básicos de construcción 
+que representan operaciones individuales o unidades de lógica. 
+Estos nodos pueden ejecutar funciones específicas como sumar números, 
+manipular geometría, acceder a datos externos, entre otros. 
+Los nodos están representados gráficamente y suelen tener entradas y salidas 
+que se conectan entre sí para definir cómo fluye la información dentro del programa.
+
+Las conexiones se utilizan para unir los nodos entre sí, 
+permitiendo que la salida de un nodo se convierta en la entrada de otro. 
+Estas conexiones establecen el flujo de datos y controlan cómo se procesa la información 
+a medida que se ejecuta el programa. Las conexiones suelen ser direccionales, 
+lo que significa que la información fluye en una dirección específica, 
+desde el nodo de salida hasta el nodo de entrada.
+
+## 3.3. Tipos de Datos y Variables
+En la programación visual, al igual que en la programación tradicional, 
+se trabajan con diferentes tipos de datos que representan información específica. 
+Algunos tipos de datos comunes incluyen:
+* números enteros `int`
+* números de punto flotante `double` 
+* cadenas de texto `string`
+* booleanos `bool`
+* Objetos instancias de Clase (`Autodesk.DesignScript.Point`, `Revit.Elements.Wall`, `Autodesk.Revit.DB.`) 
+Estos datos pueden ser manipulados y procesados por los nodos para realizar diversas operaciones.
+
+:::info[Nodo `ObjectType`]
+
+Siempre es necesario conocer con que tipo de dato estamos trabajando, el nodo `ObjectType`, nos puede ayudar
+a identificar el tipo de dato al que no estemos enfrentando.
+<div style={{ textAlign: 'center' }}>
+  <img
+  src={require('./img/nodoObjectType.png').default}
+  alt="nodoObjectType"/>
+</div>
+Este nodo nos devolvera un `string`, del tipo de dato que tendremos.
+:::
+
+Las *variables* son contenedores de datos que permiten almacenar y manipular 
+valores dentro de un programa. En la programación visual, 
+las variables suelen representarse como nodos específicos 
+que contienen un valor determinado. Estos valores pueden 
+ser asignados dinámicamente a través de conexiones o 
+modificados mediante operaciones específicas.
+
+
+
+
+
+

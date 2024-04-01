@@ -135,7 +135,7 @@ y en este contexto existe unos objetos comunes que estaremos usando a menudo, es
 * **`Document`** : Un objeto que representa un proyecto de Revit abierto.
 
 
-```py
+```python
 import clr
 
 clr.AddReference("RevitServices")
@@ -147,6 +147,24 @@ app = uiapp.Application #---> Application
 uidoc = DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument #---> UIDocument
 doc = DocumentManager.Instance.CurrentDBDocument #---> Document
 ```
+
+<details>
+  <summary>**Ejemplo: Obtener Version de Revit**</summary>
+
+  En este ejemplo se muestra como obetenr la version de Revit que se esta ejecutando
+```python
+uiapp = DocumentManager.Instance.CurrentUIApplication
+
+# Gets revit version number
+rvtVersion = uiapp.Application.VersionNumber
+# resaltado--next-line
+OUT = rvtVersion
+```
+
+
+  {/* <CodeBlock language="py">{ej_textNoteMayuscula}</CodeBlock> */}
+</details>
+
 
 ## 1.7. Uso de RevitLookup
 

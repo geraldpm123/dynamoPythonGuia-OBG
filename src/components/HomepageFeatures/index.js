@@ -5,32 +5,29 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
+    title: 'Explorando el Potencial de Dynamo',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+       Explora el poder de Dynamo para Revit: Da vida a tus ideas con fluidez y precisión.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Dynamo y Python en Revit',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Desbloquea el potencial de Revit con Dynamo y Python: ¡Tu guía esencial para la automatización y eficiencia BIM!.
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Domina la API de Revit:',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        ¡Construye el futuro de la industria AEC con tu código!".
       </>
     ),
   },

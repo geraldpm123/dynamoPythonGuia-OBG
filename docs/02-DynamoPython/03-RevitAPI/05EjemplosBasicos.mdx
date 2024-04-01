@@ -1,0 +1,80 @@
+---
+sidebar_position: 5
+---
+import CodeBlock from '@theme/CodeBlock';
+
+
+import ej_textNoteMayuscula from '!!raw-loader!./codigos/basic/ej_textNoteMayuscula.py';
+import ej_DisallowWallJoin from '!!raw-loader!./codigos/basic/ej_DisallowWallJoin.py';
+import ej_eliminarElemento from '!!raw-loader!./codigos/basic/ej_eliminarElemento.py';
+import ej_OverrideGraphics from '!!raw-loader!./codigos/basic/ej_OverrideGraphics.py';
+import ej_LinkDWG from '!!raw-loader!./codigos/basic/ej_LinkDWG.py';
+import ej_HideBubleInView from '!!raw-loader!./codigos/basic/ej_HideBubleInView.py';
+import ej_JoinGeometry from '!!raw-loader!./codigos/basic/ej_JoinGeometry.py';
+
+
+# 5. Ejemplos Básicos
+En esta sección se muestra una serie de ejemplos básicos, para empezar a consolidar todo nuestro conocimiento.
+
+
+<details>
+  <summary>**Ejemplo: Convertir a Maysuculas un TextNote**</summary>
+
+  En este ejemplo se muestra como convertir a mayusculas el contenido de un TextNote.
+  <CodeBlock language="py">{ej_textNoteMayuscula}</CodeBlock>
+</details>
+
+
+<details>
+  <summary>**Ejemplo: No Permitir Union Extremo de Muros**</summary>
+
+  En este ejemplo se muestra establecer la configruacion "No Permitir Union" en muros.
+  <CodeBlock language="py">{ej_DisallowWallJoin}</CodeBlock>
+</details>
+
+
+<details>
+  <summary>**Ejemplo: Eliminar Elemento Unico**</summary>
+
+  En este ejemplo se muestra como eliminar un unico elemento.
+  <CodeBlock language="py">{ej_eliminarElemento}</CodeBlock>
+</details>
+
+
+<details>
+  <summary>**Ejemplo: OverrideGraphics**</summary>
+
+  En este ejemplo se muestra como modificar la visibilidad de graficos de un elemento, para ello usamos la clase `OverrideGraphicSettings` y el metodo `SetElementOverrides()`.
+  <CodeBlock language="py">{ej_OverrideGraphics}</CodeBlock>
+</details>
+
+
+<details>
+  <summary>**Ejemplo: Link DWG**</summary>
+
+  En este ejemplo se muestra como importar un DWG a nuestro Proyecto.
+  <CodeBlock language="py">{ej_LinkDWG}</CodeBlock>
+</details>
+
+
+<details>
+  <summary>**Ejemplo: Hide Buble in View**</summary>
+
+  En este ejemplo se muestra como oculatr la burbuja de ambos extremos de un rejilla.
+  <CodeBlock language="py">{ej_HideBubleInView}</CodeBlock>
+  Si se quiere hace visible debería usarse el método `ShowBubbleInView()`
+</details>
+
+
+<details>
+  <summary>**Ejemplo: Unir Geometria**</summary>
+
+  En este ejemplo se muestra como unir geometria de dos elementos.
+  <CodeBlock language="py">{ej_JoinGeometry}</CodeBlock>
+</details>
+
+
+## 5.1. Ejercicios Propuestos
+* Crear un Python Script que establezca la configuración de **No Permitir Union** en vigas.
+* Crear un Python Script que **cambie la escala** de la vista actual a 1/50 (Se puede hacer por Parámetros).
+* Crear un Python Script que devuelva el **host de una armadura**.
