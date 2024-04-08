@@ -1,0 +1,45 @@
+# 4. Nodo CodeBlock
+
+El Code Block es un nodo fundamental en Dynamo que permite a los usuarios escribir 
+y ejecutar código directamente dentro de un script. A diferencia de otros nodos 
+que ofrecen funcionalidades predefinidas, el Code Block proporciona una flexibilidad 
+adicional al permitir la creación de algoritmos personalizados utilizando un lenguaje 
+incorporado llamado `DesignScript`.
+<div style={{ textAlign: 'center' }}>
+    <img
+    src={require('./img/nodoCodeblock.png').default}
+    alt="nodoCodeblock"/>
+</div>
+
+:::info[Lenguaje `DesignScript`]
+DesignScript es un lenguaje de programación creado específicamente para el diseño paramétrico 
+y la automatización de procesos en entornos como Autodesk Dynamo. 
+Fue desarrollado por Autodesk en colaboración con el Instituto Tecnológico de Massachusetts (MIT) 
+como parte de su proyecto de diseño computacional.
+:::
+
+## 4.1. Aplicaciones:
+
+El nodo `CodeBlock` lo usaremos muchas veces, ya que se inserta muy facilmente en el entorno de Dynamo
+por l oque resulta practico usarlo (Haciendo doble click en el area de trabajo). Y entre las aplicaciones de este nodos tendremos:
+
+* Usarlo para introducir variables de entrada.
+* Usarlo para establecer expresiones usando operadores.
+* Para crear una lista, usando `[]`, ademas de definir un range o un sequence.
+* Obtener el element ode un indece.
+* Al tener un lenguaje de programacion, podemos usar todo los nodos y establecerlos 
+en forma de codigo textual dentro de un `CodeBlock`
+
+
+
+
+## 4.2. Consideraciones de Uso:
+
+- **Eficiencia y Rendimiento**: Es importante tener en cuenta que el uso excesivo de Code Blocks
+ puede afectar el rendimiento del script, especialmente en proyectos grandes y complejos. 
+ Se recomienda utilizar nodos predefinidos siempre que sea posible y reservar el Code Block 
+ para casos donde se requiera flexibilidad adicional.
+
+- **Mantenibilidad**: El código dentro de un Code Block puede ser más difícil de mantener 
+y entender que los nodos predefinidos, especialmente para personas que no están familiarizadas 
+con el lenguaje de programación utilizado. Es importante documentar y organizar el código de manera clara para facilitar su comprensión y mantenimiento.

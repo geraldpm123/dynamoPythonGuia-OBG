@@ -1,0 +1,78 @@
+# 5. Operadores Booleanos
+
+Los operadores booleanos son herramientas fundamentales en la programación
+que se utilizan para realizar operaciones lógicas entre valores booleanos (verdadero o falso). 
+Estos operadores son esenciales para controlar el flujo de ejecución de un programa y 
+tomar decisiones basadas en condiciones lógicas. En Dynamo, al igual que en otros lenguajes 
+de programación, se utilizan operadores booleanos para evaluar expresiones y 
+controlar el comportamiento de los scripts.
+
+## 5.1. Operadores de Comparación.
+se utilizan operadores de comparación para evaluar relaciones entre valores. 
+Algunos de los operadores de comparación comunes son:
+
+* **Igualdad (`==`):** Este operador devuelve verdadero si los valores de las dos expresiones son iguales, 
+de lo contrario, devuelve falso.
+* **Desigualdad (`!=`):** Este operador devuelve verdadero si los valores 
+de las dos expresiones no son iguales, de lo contrario, devuelve falso.
+* **Mayor que (`>`) y Menor que (`<`):** Estos operadores devuelven verdadero 
+si el valor de la primera expresión es mayor o menor que el de la segunda expresión, respectivamente.
+* **Mayor o igual que (`>=`) y Menor o igual que (`<=`):** Estos operadores devuelven 
+verdadero si el valor de la primera expresión es mayor o igual, o menor o igual, 
+respectivamente, al de la segunda expresión.
+
+## 5.2. Operadores Conectores Logicos
+A diferencia de los operadores de comparacion, estos permiten realizar coneccion loigica para nuestras expresiones.
+
+* **Conector AND (`&&`):** Este operador devuelve verdadero si ambas expresiones evaluadas son verdaderas, 
+de lo contrario, devuelve falso. Por ejemplo:
+```py
+true && true => true
+true && false => false
+false && false => false
+```
+* **Conector OR (`||`):** Este operador devuelve verdadero si al menos una de las expresiones 
+evaluadas es verdadera, de lo contrario, devuelve falso. Por ejemplo:
+```py
+true || true => true
+true || false => true
+false || false => false
+```
+* **Operador NOT (!):** Este operador devuelve el inverso lógico de la expresión evaluada. 
+Si la expresión es verdadera, devuelve falso y viceversa. Por ejemplo:
+```py
+!true => false
+!false => true
+```
+
+## 5.3. Ejemplos
+
+<details>
+  <summary>**Ejemplo: Expresion de filtrado de muros 1**</summary>
+  
+  Se requiere los muros que sean mas largos que 5m **y** su altura sea menor a 2m.
+  `L>5 && H<2`
+  <div style={{ textAlign: 'center' }}>
+    <img
+    src={require('./img/expresionFiltradoMuros1.png').default}
+    alt="expresionFiltradoMuros1"/>
+  </div>
+</details>
+
+<details>
+  <summary>**Ejemplo: Expresion de filtrado de muros 2**</summary>
+  
+  Se requiere los muros que sean mas largos que 5m **o** su altura sea menor a 2m.
+  `L>5 || H<2`
+  <div style={{ textAlign: 'center' }}>
+    <img
+    src={require('./img/expresionFiltradoMuros2.png').default}
+    alt="expresionFiltradoMuros2"/>
+  </div>
+</details>
+
+## 5.4. Ejercicios
+* Crear un script que evalue si un numero es primo o no (Un numero es primo 
+cuando esdivisible solo por si mismo y la unidad).
+* Crear un script que evalue si un numero es par o no (un numero es par 
+si el residuo de la divison por 2 es igual a cero).

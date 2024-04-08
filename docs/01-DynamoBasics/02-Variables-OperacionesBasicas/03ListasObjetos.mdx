@@ -1,0 +1,75 @@
+# 3. Listas de Objetos
+
+Las listas son estructuras de datos fundamentales en Dynamo 
+que permiten almacenar y manipular conjuntos de valores de forma eficiente. 
+En Dynamo, las listas pueden contener cualquier tipo de dato, 
+incluyendo números, cadenas de texto, vectores, geometría, entre otros. 
+El manejo adecuado de listas es crucial para desarrollar flujos de 
+trabajo eficientes y realizar operaciones complejas en scripts.
+
+## 3.1. Creación de Listas:
+
+En Dynamo, las listas se pueden crear de varias formas:
+
+* **Usando Nodo `List.Create`:**
+    <div style={{ textAlign: 'center' }}>
+        <img
+        src={require('./img/creacionLista_ListCreate.png').default}
+        alt="creacionLista_ListCreate"/>
+    </div>
+* **Usando Nodo `CodeBlock`:** Se pueden definir listas de forma explícita proporcionando los valores 
+entre corchetes [ ], separados por comas; dentro de un nodo `CodeBlock`.
+* **Generación de Rangos:** Este nodo  (`Range`) crea una lista en un rango específico, definido por un valor inicial, 
+un valor final y un incremento.
+    <div style={{ textAlign: 'center' }}>
+        <img
+        src={require('./img/creacionLista_Range.png').default}
+        alt="creacionLista_Range"/>
+    </div>
+
+* **Generación de Secuencias:** Este nodo (`Sequence`) crea una lista de secuencia, definido por un valor inicial, 
+cantidad de elementos y un incremento.
+    <div style={{ textAlign: 'center' }}>
+        <img
+        src={require('./img/creacionLista_Sequence.png').default}
+        alt="creacionLista_Sequence"/>
+    </div>
+
+
+## 3.2. Acceso a Elementos de una Lista:
+Una vez creada una lista, es posible acceder a sus elementos individuales mediante su índice. 
+En Dynamo, los índices de las listas comienzan en cero, lo que significa que el primer elemento 
+de una lista tiene el índice 0, el segundo tiene el índice 1, y así sucesivamente. 
+Para acceder a un elemento específico de una lista, se utiliza el nodo `List.GetItemAtIndex`.
+
+## 3.3. Listas en Puertos de Entrada de Nodos
+Dynamo en su entorno de programacion visual no usa bucles e iteradores, sino que todo lo maneja en
+base al funcionamiento generalizado de nodos para datos unicos y listas.
+Esto significa que los nodos de Dynamo estan preparados para funcionar para un unico dato asi como una lista de datos.
+
+## 3.4. Manipulación de Listas:
+Dynamo proporciona una variedad de nodos para manipular listas de diferentes maneras:
+
+* Agregar y eliminar elementos: Con los nodos `List.AddItemToEnd` y `List.RemoveItemAtIndex`.
+* Modificar elementos: Con el nodo `List.ReplaceItemAtIndex`.
+* Tamaño de una lista: Con el nodo `List.Count`.
+* Obtener el indice de un elemento dentro de una lista: `ListIndexOf` y `List.AllIndicesOf`.
+* Obtener valores unicos de una lista: `List.UniqueItems`.
+* Obtener máximo y mínimo valor: `List.MaximunItem` y `List.MinimunItem`.
+* Ordenar una lista: `List.Sort`, `List.SortByKey` y `List.SortByFunction`.
+
+<details>
+  <summary>**Ejemplo: Ordenando Puntos**</summary>
+  
+  En el siguiente ejemplo ordenaremos una lista de puntos.
+  <div style={{ textAlign: 'center' }}>
+    <img
+    src={require('./img/ejemploOrdenandoPuntos.png').default}
+    alt="ejemploOrdenandoPuntos"/>
+  </div>
+</details>
+
+Existen otros nodos que nos facilitaran el manejo de listas, pero los veremos de forma especifica en
+posteriores scripts que veamos.
+
+

@@ -1,0 +1,44 @@
+# 6. Strings
+
+## 6.1. Manipulación de Cadenas de Texto en Dynamo:
+
+En Dynamo, las cadenas de texto se pueden manipular y procesar de diversas 
+formas para realizar una variedad de tareas, como la manipulación de datos, 
+la generación de informes y la creación de scripts personalizados.
+
+## 6.2. Creación de Cadenas de Texto:
+
+En Dynamo, las cadenas de texto se pueden crear de varias formas:
+
+* **Usando el nodo `String`**: Como vimos anteriormente
+* **Dentro de un `CodeBlock`**: Se pueden definir cadenas de texto directamente 
+utilizando comillas dobles (`"`). Por ejemplo: `"Hola mundo"` o `"Dynamo es poderoso"`.
+
+## 6.3. Manipulación de Strings
+Dynamo proporciona una variedad de nodos para manipular SVGStringList, como por ejemplo:
+
+* **Longitud**: El nodo `String.Length` devuelve la longitud de una cadena de texto, es decir, 
+el número de caracteres que contiene.
+* **Búsqueda y Reemplazo**: Los nodos `String.Contains`, `String.IndexOf` y `String.Replace` 
+permiten buscar y reemplazar subcadenas dentro de una cadena.
+* **Mayúsculas y Minúsculas**: Los nodos `String.ToUpper` y `String.ToLower` permiten convertir 
+una cadena a mayúsculas o minúsculas, respectivamente, ademas delnodo `String.ChangeCase`.
+* **División y Unión**: Los nodos `String.Split` y `String.Join` permiten dividir 
+una cadena en subcadenas o unir varias cadenas en una sola, respectivamente.
+* **Concatenación**: Se pueden combinar múltiples cadenas de texto utilizando el operador `+` dentro de un CodeBlock. 
+Por ejemplo: `'Hola' + ' ' + 'mundo'`, ademas de los nodos `String.Concat`, `+`.
+* **Acceso por Índice**: Se puede acceder a un carácter específico de una cadena 
+utilizando su índice entre corchetes (`[]`). Por ejemplo: `'Hola'[0]` devolverá `'H'`.
+* **Cortes (Slicing)**: USando el nodo `String.Split`.
+
+## 6.4. Uso en Dynamo:
+
+Las cadenas de texto se utilizan ampliamente en Dynamo para la manipulación de datos, 
+la generación de informes y la creación de scripts personalizados.
+Por ejemplo, se pueden utilizar cadenas de texto para llenar parametros de tipo texto, 
+nombrar elementos, generar mensajes de error, formatear datos para la visualización y exportación, 
+entre otras aplicaciones.
+
+
+## 6.5. Ejercicios
+* Convertir una oracion todas las palabras en mayuscula inicial
