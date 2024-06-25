@@ -1,0 +1,35 @@
+# 3. Objetos Geometricos
+Como pudimos observar en las secciones anteriores, la geometria de Dynamo se crea usando losnodos.
+El resultado que devuelve un nodo de geometria es un objeto el cual ya sabemos reconocer, perotambein es importantes
+tener en cuenta que existe un diagrma de clases el cual debemos reconocer para poder usar adecuadamente los nodos 
+geometricos.
+
+
+```mermaid
+classDiagram
+    DesignScriptEntity <-- Geometry
+    DesignScriptEntity <-- BoundingBox
+    DesignScriptEntity <-- Vector
+    DesignScriptEntity <-- CoordinateSystem
+    DesignScriptEntity <-- Edge
+    DesignScriptEntity <-- Face
+    Geometry <-- Curve
+    Geometry <-- Point
+    Geometry <-- Plane
+    Geometry <-- Topology
+    Curve <-- Line
+    Curve <-- Arc
+    Curve <-- Circle
+    Curve <-- Ellipse
+    Curve <-- PolyCurve
+    PolyCurve <-- Polygon
+    Polygon <-- Rectangle
+    Topology <-- Solid
+    Topology <-- Surface
+    Surface <-- PolySurface
+    Surface <-- NurbsSurface
+    Solid <-- Cone
+        Cone <-- Cylinder
+    Solid <-- Cuboid
+    Solid <-- Sphere
+```

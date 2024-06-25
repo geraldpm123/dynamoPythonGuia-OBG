@@ -1,0 +1,231 @@
+---
+sidebar_position: 7
+---
+import CodeBlock from '@theme/CodeBlock';
+
+# 7. Interoperabilidad Excel con Python
+Usar Excel con Python es una tarea común y útil para automatizar la manipulación de datos, 
+generación de reportes y otras operaciones. Puedes usar bibliotecas como `openpyxl` para interactuar 
+con archivos Excel.
+
+## 7.1. Interoperabilidad de COM para IronPython
+En el caso de IronPython podemos usar la Interoperabilidad de COM (Component Object Model).
+Esto implica usar la biblioteca COM de Excel para abrir, modificar y guardar archivos Excel 
+directamente desde IronPython, pero debemos tener instalado Excel para poder usarlo.
+
+```python
+import clr
+clr.AddReference("Microsoft.Office.Interop.Excel")
+from Microsoft.Office.Interop import Excel
+```
+A continuacion se muestra ejemplos completos para crear un archivo de excel:
+
+<details>
+  <summary>**Ejemplo: Crear un archivo Excel**</summary>
+
+  En este ejemplo se muestra como crear un archivo Excel usando la Interoperabilidad COM
+  ```py
+import clr
+clr.AddReference('Microsoft.Office.Interop.Excel')
+from Microsoft.Office.Interop import Excel
+
+# Ingreso de la ruta de guardado
+ruta = IN[0]
+
+# Crear una instancia de la aplicación Excel
+excel = Excel.ApplicationClass()
+
+# Hacer visible la aplicación (opcional)
+excel.Visible = True
+
+# Crear un nuevo libro de trabajo
+workbook = excel.Workbooks.Add()
+
+# Seleccionar la primera hoja
+sheet = workbook.Worksheets[1]
+
+# Llenar una celda específica, por ejemplo, A1 con el valor "Hola Dynamo"
+sheet.Cells[1, 1].Value2 = "Hola Dynamo"
+
+# Guardar el archivo de Excel
+workbook.SaveAs(ruta)
+
+# Cerrar el libro de trabajo (opcional)
+workbook.Close(SaveChanges=True)
+
+# Cerrar la aplicación Excel (opcional)
+excel.Quit()
+  ```
+  {/* <CodeBlock language="py">{ej_cotasLinea}</CodeBlock> */}
+</details>
+
+
+<details>
+  <summary>**Ejemplo: Crear un archivo Excel con Formula**</summary>
+
+  En este ejemplo se muestra como crear un archivo Excel con una formula en una celda
+  ```py
+import clr
+clr.AddReference('Microsoft.Office.Interop.Excel')
+from Microsoft.Office.Interop import Excel
+
+ruta = IN[0]
+
+# Crear una instancia de la aplicación Excel
+excel = Excel.ApplicationClass()
+
+# Hacer visible la aplicación (opcional)
+excel.Visible = False
+
+# Crear un nuevo libro de trabajo
+workbook = excel.Workbooks.Add()
+
+# Seleccionar la primera hoja
+sheet = workbook.Worksheets[1]
+
+# Llenar algunas celdas con datos
+sheet.Cells[1, 1].Value2 = 5  # A1
+sheet.Cells[1, 2].Value2 = 10  # B1
+
+# Establecer una fórmula en una celda específica, por ejemplo, C1
+sheet.Cells[1, 3].Formula = "=A1+B1"
+
+# Guardar el archivo de Excel
+workbook.SaveAs(ruta)
+
+# Cerrar el libro de trabajo (opcional)
+workbook.Close(SaveChanges=True)
+
+# Cerrar la aplicación Excel (opcional)
+excel.Quit()
+  ```
+  {/* <CodeBlock language="py">{ej_cotasLinea}</CodeBlock> */}
+</details>
+
+<details>
+  <summary>**Ejemplo: Crear un archivo Excel con Imagenes**</summary>
+
+  En este ejemplo se muestra como crear un archivo Excel con una formula en una celda
+  ```py
+import clr
+clr.AddReference('Microsoft.Office.Interop.Excel')
+
+from Microsoft.Office.Interop import Excel
+
+rutaExcel = IN[0]
+image_path = IN[1]
+
+# Crear una instancia de la aplicación Excel
+excel = Excel.ApplicationClass()
+
+# Hacer visible la aplicación (opcional)
+excel.Visible = False
+
+# Crear un nuevo libro de trabajo
+workbook = excel.Workbooks.Add()
+
+# Seleccionar la primera hoja
+sheet = workbook.Worksheets[1]
+
+
+# Insertar la imagen
+# Los parámetros son (Filename, Left, Top, Width, Height)
+left = sheet.Cells[1, 1].Left  # La posición izquierda de la celda A1
+top = sheet.Cells[1, 1].Top    # La posición superior de la celda A1
+sheet.Shapes.AddPicture(image_path, 0, 1, left, top, -1, -1)
+
+# Guardar el archivo de Excel
+workbook.SaveAs(rutaExcel)
+
+# Cerrar el libro de trabajo (opcional)
+workbook.Close(SaveChanges=True)
+
+# Cerrar la aplicación Excel (opcional)
+excel.Quit()
+  ```
+  {/* <CodeBlock language="py">{ej_cotasLinea}</CodeBlock> */}
+</details>
+
+## 7.2. Ejemplos Practicos
+A continuacion se muestran algunos ejemplos para desarrollar en Clase.
+<details>
+  <summary>**Ejemplo: Exportar Vista de Revit como Imagen**</summary>
+
+  En este ejemplo se muestra como exportar una imagen a partir de una vista
+  ```py
+import clr
+
+#Import Revit API
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import *
+
+#import Document Manager and TransactionManager
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+#Principales variables que tal vez usemos
+doc = DocumentManager.Instance.CurrentDBDocument
+
+output_path = IN[0]
+# Configurar las opciones de exportación
+image_options = ImageExportOptions()
+image_options.ExportRange = ExportRange.CurrentView
+image_options.FilePath = output_path
+image_options.HLRandWFViewsFileType = ImageFileType.PNG
+image_options.ImageResolution = ImageResolution.DPI_300
+
+TransactionManager.Instance.EnsureInTransaction(doc)
+# Exportar la vista como imagen
+doc.ExportImage(image_options)
+TransactionManager.Instance.TransactionTaskDone()
+
+OUT = 0
+  ```
+  {/* <CodeBlock language="py">{ej_cotasLinea}</CodeBlock> */}
+</details>
+
+
+<details>
+  <summary>**Ejemplo: Obtener los Warnings del proyecto**</summary>
+
+  En este ejemplo se muestra como obtener los warnings del proyecto
+  ```py
+import clr
+
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+#Principales variables que tal vez usemos
+doc = DocumentManager.Instance.CurrentDBDocument
+
+# Obtener todos los warnings del documento
+failure_messages = doc.GetWarnings()
+mensajesWarning = []
+elementosDeWarnings = []
+# Iterar sobre cada warning
+for failure_message in failure_messages:
+    # Obtener el texto del warning
+    warning_text = failure_message.GetDescriptionText()
+    mensajesWarning.append(warning_text)
+    # Obtener los elementos que participan en el warning
+    failing_elements = failure_message.GetFailingElements()
+    listaElementos = [doc.GetElement(id) for id in failing_elements]
+    elementosDeWarnings.append(listaElementos)
+ 
+OUT = mensajesWarning, elementosDeWarnings
+  ```
+  {/* <CodeBlock language="py">{ej_cotasLinea}</CodeBlock> */}
+</details>
+
+* Ejemplo de Exportacion de Warnings con imagen de cada warning a Excel, para desarrollar en clase.
+* Ejemplo de creacion de Filtros en Revit y asignacion a vista.
+## 7.3. Ejercicios Propuestos
+* Crear un PythonScript que cree un encabezamiento para una hoja de Excel con bordes gruesos.
+* Crear un PythonScript que exporte las nubes de revision de Revit a Excel, con su descripcion.

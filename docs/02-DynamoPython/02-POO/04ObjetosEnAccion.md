@@ -168,7 +168,7 @@ from RevitServices.Transactions import TransactionManager
 OUT = 0
 ```
 
-## 4.4. Metodos Estaticos para instanciar un objeto
+## 4.4. Métodos Estáticos para instanciar un objeto
 
 En C# (recordemos que la documentación esta en este lenguaje), los métodos estáticos se definen con la palabra clave ```static``` y pertenecen a la clase en lugar de a una instancia específica de la clase. Esto significa que pueden ser invocados sin necesidad de crear una instancia de la clase.
 
@@ -212,9 +212,11 @@ Ademas de ser útiles para instanciar un objeto, los métodos estáticos son út
 
 Un constructor es un método especial dentro de una clase que se llama automáticamente cuando se crea una nueva instancia de la clase. Su propósito principal es inicializar el objeto recién creado.
 
-:::note[Ejemplo: Utilización Constructor]
 
-Tenemos el constructor de la clase **TaskDialog**, el cual se muestra a continuación:
+<details close>
+  <summary>**Ejemplo: Constructor para objeto TaskDialog**</summary>
+
+  Tenemos el constructor de la clase **TaskDialog**, el cual se muestra a continuación:
 
 <div style={{ textAlign: 'center', maxWidth: '650px' }}>
   <img  style={{ maxWidth: '650px'}}
@@ -233,7 +235,7 @@ La sintaxis de este método es:
 
 A diferencia de un Método Estático, el Constructor siempre devuelve una instancia de la misma Clase. 
 Entonces el código para crear un objeto de la clase **TaskDialog** usando el método constructor sera el siguiente:
-```py
+  ```py
 import clr
 
 clr.AddReference('RevitAPIUI')
@@ -241,7 +243,72 @@ from Autodesk.Revit.UI import TaskDialog
 
 # Instanciando un objeto TaskDialog
 instanciaTaskDialog = TaskDialog("Este es un titulo")
-```
-:::
+  ```
+</details>
+
+<details close>
+  <summary>**Ejemplo: Constructor para objeto ElementId**</summary>
+
+  Tenemos el constructor de la clase **ElementId**, la sintaxis de este método es:
+
+<div style={{ textAlign: 'center' }}>
+  <img  style={{ maxWidth: '550px'}}
+  src={require('./img/constructorElementId.png').default}
+  alt="constructorElementId"/>
+</div>
+Usando el método constructor sera el siguiente:
+  ```py
+import clr
+
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import ElementId
+
+# Instanciando un objeto ElementId
+instanciaElementId = ElementId(387644)
+  ```
+</details>
+
+
+<details close>
+  <summary>**Ejemplo: Constructor y Metodos Estaticos Objetos Geometricos Revit**</summary>
+
+  Usando la documentación de Revit, podemos encontrar clases qeu se usan para objetos geométricos de Revit.
+  ```py
+import clr
+
+clr.AddReference('RevitAPI')
+#from Autodesk.Revit.DB import XYZ, Line, Plane, CurveLoop, GeometryCreationUtilities
+from Autodesk.Revit.DB import *
+
+# Crear objetos XYZ (Punto de Revit) --> Constructor
+punto2Revit = XYZ(10, 10, 10)
+punto1Revit = XYZ.Zero # Propiedad estática
+
+
+# Crear objeto Line (Linea de Revit) --> Método Estático
+lineaRevit = Line.CreateBound(punto1Revit, punto2Revit)
+
+# Crear Vectores de Revit
+vecZ = XYZ.BasisZ
+
+# Crear un Plano (Plane de Revit) --> Método Estático
+plano = Plane.CreateByNormalAndOrigin(vecZ, punto1Revit)
+
+# Definimos una lista de Lineas para un rectángulo
+listaLineas = [Line.CreateBound(XYZ(0, 0, 0), XYZ(1, 0, 0)),
+               Line.CreateBound(XYZ(1, 0, 0), XYZ(1, 1, 0)),
+               Line.CreateBound(XYZ(1, 1, 0), XYZ(0, 1, 0)),
+               Line.CreateBound(XYZ(0, 1, 0), XYZ(0, 0, 0))]
+
+# Creamos un CurveLoop (Objeto que almacena lista de Curvas)
+outline = CurveLoop.Create(listaLineas)
+
+# Crear un sólido extraído --> Método Estático
+height = 1.0
+solid = GeometryCreationUtilities.CreateExtrusionGeometry([outline], vecZ, height)
+  ```
+</details>
+
+
 
 Los constructores son útiles porque te permiten inicializar el estado de un objeto cuando se crea, lo que garantiza que esté en un estado válido y coherente desde el principio.

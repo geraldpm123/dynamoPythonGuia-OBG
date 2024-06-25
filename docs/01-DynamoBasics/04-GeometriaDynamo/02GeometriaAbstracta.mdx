@@ -1,0 +1,60 @@
+# 2. Geometrias Abstractas
+## 2.1. Vectores
+Los vectores son una herramienta fundamental en computación gráfica 
+para representar y manipular posiciones, direcciones y transformaciones 
+en el espacio tridimensional, lo que permite crear diversas geometrias
+en aplicaciones gráficas.
+
+Para crear un vector en Dynamo, podemos usar el nodo `Vector.ByCoordinates`.
+
+En Dynamo los vectores nos seran de mucha ayuda en los siguientes casos:
+* **Representación de posiciones y direcciones:** En un entorno tridimensional, 
+los vectores se usan para representar direcciones principales o derivadas.
+Los nodos `Vector.XAxis`, `Vector.YAxis`, `Vector.ZAxis`, representan los
+tres vectores pricnipales del espaco 3D.
+
+* **Operaciones de vectores:** Los vectores se pueden manipular mediante una serie 
+de operaciones, como suma, resta, multiplicación por un escalar, producto punto, 
+producto cruz, entre otras. Estas operaciones son esenciales para realizar 
+transformaciones y cálculos en computación gráfica.
+En el caso
+
+* **Transformaciones geométricas:** Las transformaciones geométricas, como traslación, 
+rotación y escala, se realizan aplicando operaciones de vectores. 
+Por ejemplo, para trasladar un objeto en el espacio, se suma un vector 
+de traslación a sus coordenadas actuales. De manera similar, 
+la rotación se puede lograr mediante operaciones de producto cruz 
+o utilizando matrices de rotación.
+
+### 2.1.1. Producto Punto (o producto escalar):
+- Determinar la ortogonalidad de dos vectores: Si el producto punto 
+de dos vectores es cero, entonces los vectores son ortogonales (perpendiculares).
+- Calcular la proyección de un vector sobre otro: El producto punto 
+entre dos vectores puede usarse para encontrar la proyección de un vector sobre otro.
+- Calcular la magnitud de un vector: El producto punto de un vector 
+consigo mismo (autoproducto punto) es igual al cuadrado de su magnitud.
+- Calcular ángulos: La fórmula del coseno entre dos vectores 
+$ \vec{a} $ y $ \vec{b} $ se puede expresar en términos 
+del producto punto como 
+$ \cos(\theta) = \frac{\vec{a} \cdot \vec{b}}{\lVert \vec{a} \rVert \lVert \vec{b} \rVert} $, 
+donde $ \theta $ es el ángulo entre los vectores.
+
+### 2.1.2. Producto Cruz (o producto vectorial):
+- Calcular el área de un paralelogramo o un triángulo: El módulo del producto 
+cruz de dos vectores $ \vec{a} $ y $ \vec{b} $ es igual al área del 
+paralelogramo formado por estos vectores. La mitad de este valor es igual 
+al área del triángulo formado por los mismos vectores.
+- Calcular el vector normal a un plano: Dados dos vectores en un plano, 
+el producto cruz entre ellos proporciona un vector normal al plano.
+- Encontrar una base ortogonal: Dados dos vectores linealmente independientes, 
+el producto cruz entre ellos produce un tercer vector ortogonal a ambos.
+
+El producto punto y el producto cruz son operaciones matemáticas importantes 
+en geometría que se utilizan para una variedad de propósitos, como calcular ángulos, 
+áreas, direcciones y proyecciones en el espacio tridimensional.
+
+## 2.2. Planos
+De forma similar a los vectores los planos en Dynamo son un tip ode geometria 
+abstracta pero muy util que nos ayudara para trabajr con geometrias.
+Podemos acceder a los principales planos tridimnesionales usando los nodos:
+`Plane.XY`, `Plane.XZ`, `Plane.YZ`

@@ -1,0 +1,142 @@
+---
+sidebar_position: 4
+---
+import CodeBlock from '@theme/CodeBlock';
+
+
+# 4. FilteredElementCollector
+
+La clase FilteredElementCollector de la API de Revit es una herramienta poderosa 
+para recopilar y filtrar elementos en un documento de Revit. Esta clase te permite 
+realizar búsquedas eficientes y específicas dentro de un modelo de Revit, 
+basándote en varios criterios de filtrado.
+
+
+<details close>
+  <summary>**Ejemplo: Obtener muros con FilteredElementCollector**</summary>
+
+  En este ejemplo se muestra como obetenr un elemento a partir del numero de Id
+```python
+# -*- coding: utf-8 -*-
+from Autodesk.Revit.DB import *
+
+doc = __revit__.ActiveUIDocument.Document
+
+# Creamos el FilteredElementCollector
+# resaltado--next-line
+fec = FilteredElementCollector(doc)
+
+# Aplicamos un filtro para la categoria muros
+fec = fec.OfCategory(BuiltInCategory.OST_Walls)
+
+# Aplicamos un filtro para obtener solo las instancias
+fec = fec.WhereElementIsNotElementType()
+
+# Convertimos a iterable de elementos
+elementos = fec.ToElements()
+
+# Imprimir la cantidad de elementos
+print("El colector tiene {} elementos".format(len(elementos)))
+[print("Muro Id: {}".format(elemento.Id.Value)) for elemento in elementos]
+```
+  {/* <CodeBlock language="py">{ej_textNoteMayuscula}</CodeBlock> */}
+</details>
+
+
+<details close>
+  <summary>**Ejemplo: Obtener tipos de Rebar con FilteredElementCollector**</summary>
+
+```python
+# -*- coding: utf-8 -*-
+from Autodesk.Revit.DB import *
+from Autodesk.Revit.DB.Structure import *
+
+doc = __revit__.ActiveUIDocument.Document
+
+# Creamos el FilteredElementCollector
+fec = FilteredElementCollector(doc)
+
+# Aplicamos un filtro para la clase RebarBarType
+fec = fec.OfClass(RebarBarType)
+
+# Convertimos a lista
+tiposRebar = fec.ToElements()
+
+# Imprimir la cantidad de elementos
+print("Hay en total {} tipos de Rebar".format(len(tiposRebar)))
+[print("Tipo Rebar Id: {}".format(tipo.Id.Value)) for tipo in tiposRebar]
+```
+  {/* <CodeBlock language="py">{ej_textNoteMayuscula}</CodeBlock> */}
+</details>
+
+Tambien podriamos usar gran variedad de filtros para hacer mucho mas personalizado 
+la recoleccion de elementos, pero esta vez haciendolo en menos lineas de codigo.
+
+<details close>
+  <summary>**Ejemplo: Obtener muros visibles en la vista**</summary>
+
+```python
+# -*- coding: utf-8 -*-
+from Autodesk.Revit.DB import *
+
+doc = __revit__.ActiveUIDocument.Document
+
+# Creamos un ElementFilter --> VisibleInViewFilter
+elementFilter = VisibleInViewFilter(doc, doc.ActiveView.Id)
+
+elementos = FilteredElementCollector(doc).OfClass(Wall).WherePasses(elementFilter).ToElements()
+
+# Imprimir la cantidad de elementos
+print("Los muros encontrados visibles en la vista actual {} son:".format(doc.ActiveView.Name))
+[print("Wall Id: {}".format(elem.Id.Value)) for elem in elementos]
+```
+  {/* <CodeBlock language="py">{ej_textNoteMayuscula}</CodeBlock> */}
+</details>
+
+Ejemplo Aplicativo:
+<details close>
+  <summary>**Ejemplo: Modificar VG para muros**</summary>
+
+Se quiere modificar la visibilidad de graficos de una vista para la categoria Muros, 
+que se pinte con un patron de superficie de color rojo:
+  
+```python
+# -*- coding: utf-8 -*-
+from Autodesk.Revit.DB import *
+
+doc = __revit__.ActiveUIDocument.Document
+
+# 1. Definimos la variable vista
+vista = doc.ActiveView
+
+# 2. Definir el id de la categoria
+categoryId = ElementId(BuiltInCategory.OST_Walls)
+
+# 3. Recuperamos los FillPatternElement
+patrones = FilteredElementCollector(doc).OfClass(FillPatternElement).ToElements()
+
+fillPat = [patron for patron in patrones if patron.GetFillPattern().IsSolidFill][0]
+
+# 4. Crear el OverrideGraphicSettings
+ogs = OverrideGraphicSettings()
+ogs.SetSurfaceForegroundPatternId(fillPat.Id)
+ogs.SetSurfaceForegroundPatternColor(Color(255, 0, 0))
+
+# 5. Modificar la visbilidad de graficos para la vista
+trans = Transaction(doc, "Modificando VG")
+trans.Start()
+vista.SetCategoryOverrides(categoryId, ogs)
+trans.Commit()
+```
+  {/* <CodeBlock language="py">{ej_textNoteMayuscula}</CodeBlock> */}
+</details>
+
+
+
+## 4.1. Ejercicios Propuestos
+* Crear un Python Script que devuelva todos los niveles de un proyecto.
+* Crear un Python Script que devuelva todos las vistas 3D del proyecto.
+* Crear un Python Script que devuelva todas las instancias de vigas del proyecto (no modelo in situ).
+* Crear un Python Script que devuelva todos los warnings de un proyecto.
+* (Desafio) Crear un Python Script que devuelva todos los parametros de proyecto.
+* (Desafio) Crear un Python Script que devuelva todos los muros cuyo parametro comentarios empieza con la letra "C".

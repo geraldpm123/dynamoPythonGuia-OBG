@@ -1,0 +1,176 @@
+---
+sidebar_position: 8
+---
+import CodeBlock from '@theme/CodeBlock';
+
+# 8. Geometry Conversion
+La conversión de geometrías entre Revit y Dynamo (ProtoGeometry) es una tarea común 
+cuando se trabaja con Dynamo y Revit API. Dynamo es una plataforma de modelado visual 
+para Revit y otros productos de Autodesk, y utiliza su propio sistema de geometría 
+llamado ProtoGeometry. Revit, por otro lado, utiliza su propia API de geometría.
+
+## 8.1. GeometryConversion Namespace
+En Dynamo, el GeometryConversion namespace proporciona métodos y clases para 
+convertir entre las geometrías de ProtoGeometry y las geometrías nativas de Revit. 
+
+Primero, necesitamos importar los módulos necesarios. 
+```python
+import clr
+
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import *
+
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+clr.AddReference('RevitServices')
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+clr.AddReference('RevitNodes')
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+```
+
+## 8.2. Convertir Geometría de Revit a ProtoGeometry
+Para convertir una geometría de Revit a ProtoGeometry, se puede usar el método `ToProtoType`.
+* **Conversion de Elementos**
+    ```python
+    Element.ToDSType(bool); # True si es un elemento generado por Revit
+    ```
+* **Conversion de Geometrias**
+    ```python
+    XYZ.ToPoint() > Point
+    XYZ.ToVector() > Vector
+    Point.ToProtoType() > Point
+    List<XYZ>.ToPoints() > List<Point>
+    UV.ToProtoType() > UV
+    Curve.ToProtoType() > Curve
+    CurveArray.ToProtoType() > PolyCurve
+    PolyLine.ToProtoType() > PolyCurve
+    Plane.ToPlane() > Plane
+    Solid.ToProtoType() > Solid
+    Mesh.ToProtoType() > Mesh
+    IEnumerable<Mesh>.ToProtoType() > Mesh[]
+    Face.ToProtoType() > IEnumerable<Surface>
+    Transform.ToCoordinateSystem() > CoordinateSystem
+    BoundingBoxXYZ.ToProtoType() > BoundingBox
+    ```
+
+## 8.2. Convertir Geometría de ProtoGeometry a Revit
+Para convertir una geometría de ProtoGeometry a la geometría nativa de Revit, puedes usar el método `ToRevitType`:
+
+* **Conversion de Elementos**\
+    Nosotros usamos el metodo `UnwrapElement()` pero tambien puede usarse la propiedad `InternalElement`
+    ```python
+    EElement.InternalElement
+    ```
+* **Conversion de Geometrias**
+    ```python
+    Point.ToRevitType() > XYZ
+    Vector.ToRevitType() > XYZ
+    Plane.ToPlane() > Plane
+    List<Point>.ToXyzs() > List<XYZ>
+    Curve.ToRevitType() > Curve
+    PolyCurve.ToRevitType() > CurveLoop
+    Surface.ToRevitType() > IList<GeometryObject>
+    Solid.ToRevitType() > IList<GeometryObject>
+    Mesh.ToRevitType() > IList<GeometryObject>
+    CoordinateSystem.ToTransform() > Transform
+    CoordinateSystem.ToRevitBoundingBox() > BoundingBoxXYZ
+    BoundingBox.ToRevitType() > BoundingBoxXYZ
+    ```
+
+## 8.3. Ejemplos Practicos
+<details>
+  <summary>**Ejemplo: Obteniendo Solido Dynamo**</summary>
+
+  En este ejemplo se muestra como obtener el solido de Dynamo de un muro
+  ```py
+# Inputs
+muro = IN[0] # No lo desempaquetamos
+
+solidos = muro.Solids
+
+OUT = solidos
+  ```
+  {/* <CodeBlock language="py">{ej_cotasLinea}</CodeBlock> */}
+</details>
+
+<details>
+  <summary>**Ejemplo: Obteniendo Solido Revit**</summary>
+
+  En este ejemplo se muestra como obtener el solido nativo de Revit de un muro
+  ```py
+# Inputs
+muro = UnwrapElement(IN[0])
+
+geoOptions = Options()
+solido = muro.get_Geometry(geoOptions)
+
+OUT = solido
+  ```
+  {/* <CodeBlock language="py">{ej_cotasLinea}</CodeBlock> */}
+</details>
+
+Luego podemos convertir el solido nativo de Revit a un solido de Dynamo:
+<details>
+  <summary>**Ejemplo: Convirtiendo Solido Revit a ProtoGeometry**</summary>
+
+  En este ejemplo se muestra como convertir geometrias
+  ```py
+# Inputs
+solido = IN[0]
+
+# resaltado--next-line
+OUT = solido.ToProtoType()
+  ```
+  {/* <CodeBlock language="py">{ej_cotasLinea}</CodeBlock> */}
+</details>
+
+Ahora mostramos un ejemplo para crear un muro pero usando geometria de Dynamo, esto dentro de un PythonScript.
+
+
+<details>
+  <summary>**Ejemplo: Creando un muro a partir de una Curve ProtoGeometry**</summary>
+
+  En este ejemplo se muestra como crear un muro usando Revit API a partir de una Curve ProtoGeometry
+  ```py
+import clr
+
+#Import Revit API
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import *
+
+#import Revit Nodes and extensions
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+#import Document Manager and TransactionManager
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+#Principales variables que tal vez usemos
+doc = DocumentManager.Instance.CurrentDBDocument
+
+# Convertimos la geometria
+# resaltado--next-line
+curva = IN[0].ToRevitType()
+level = UnwrapElement(IN[1])
+
+TransactionManager.Instance.EnsureInTransaction(doc)
+# Creamos un muro
+muro = Wall.Create(doc, curva, level.Id, True)
+TransactionManager.Instance.TransactionTaskDone()
+
+OUT = 0
+  ```
+  {/* <CodeBlock language="py">{ej_cotasLinea}</CodeBlock> */}
+</details>
+
+Desarrollar un python script para Crear una abertura de muro para que pasen tuberias.

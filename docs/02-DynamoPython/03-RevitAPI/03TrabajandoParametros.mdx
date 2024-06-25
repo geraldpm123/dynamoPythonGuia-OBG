@@ -107,6 +107,47 @@ Las subtransacciones le darán la posibilidad de revertir los cambios. No hay fo
 <CodeBlock language="py">{ej_setParameter1}</CodeBlock>
 <CodeBlock language="py">{ej_setParameter2}</CodeBlock>
 
+En PyRevit tambien podriamos hacer el mismo ejemplo, solo que no tendremos disponibles 
+las variables IN y OUT, pero podemos hacer lo siguiente:
+<details close>
+  <summary>**Ejemplo: Modificar parametro con PyRevit**</summary>
+  
+```python
+# -*- coding: utf-8 -*-
+from Autodesk.Revit.DB import *
+
+# Variables comunmente necesarias (ya estan cargadas en PyRevit)
+uiapp = __revit__
+app = __revit__.Application 
+uidoc = __revit__.ActiveUIDocument
+doc = __revit__.ActiveUIDocument.Document
+
+# Obtenemos el muro y nivel a partir del valor de sus Ids
+muro = doc.GetElement(ElementId(381061))
+nivel = doc.GetElement(ElementId(381018))
+
+# Obtenemos el id del nivel
+elementId_nivel = nivel.Id
+
+# Obtenemos el parametro Restriccion superior
+paramResSup = muro.get_Parameter(BuiltInParameter.WALL_HEIGHT_TYPE)
+
+# Realizamos la modificacion del parametro dentro de un transaccion
+trans = Transaction(doc, "Modificación Mia")
+# Inicializar la transaccion
+trans.Start()
+# Asiganrle un valor a este parametro
+resultado = paramResSup.Set(elementId_nivel)
+# Finalizar la transaccion
+trans.Commit()
+```
+  {/* <CodeBlock language="py">{ej_textNoteMayuscula}</CodeBlock> */}
+</details>
+
+
+
+
+
 ## 3.5. Ejercicios Propuestos
 * Crear un Python Script que cambie el valor del parámetro **"Estructura"** a `activado` para un muro, usar get_Parameter() y Set().
 * Crear un Python Script que cambie el valor del parámetro **"Línea de ubicación"** a `Core Face Exterior` para un muro, usar get_Parameter() y Set().

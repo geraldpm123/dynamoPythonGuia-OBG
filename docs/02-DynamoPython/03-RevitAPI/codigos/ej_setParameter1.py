@@ -1,4 +1,3 @@
-
 import clr
 
 clr.AddReference('RevitAPI')
@@ -10,26 +9,19 @@ from RevitServices.Transactions import TransactionManager
 
 doc = DocumentManager.Instance.CurrentDBDocument
 
-
+# Inputs
 muro = UnwrapElement(IN[0])
-nivel = UnwrapElement(IN[1])
 
-elementId_nivel = nivel.Id
+# Obtenemos el parámetro Comentarios
+paramComments = muro.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS)
 
-
-# Obtenemos el parametro Restriccion superior
-paramResSup = muro.get_Parameter(BuiltInParameter.WALL_HEIGHT_TYPE)
-
-
-# Inicializar la transaccion
+# Inicializar la transaction
 TransactionManager.Instance.EnsureInTransaction(doc)
-# Asiganrle un valor a este parametro
-resultado = paramResSup.Set(elementId_nivel)
-
-# Finalizar la transaccion
+# Asignarle un valor a este parámetro
+# resaltado--next-line
+resultado = paramComments.Set("Hola Mundo")
+# Finalizar la transacción
 TransactionManager.Instance.TransactionTaskDone()
-
-
 
 # Asigne la salida a la variable OUT.
 OUT = resultado

@@ -1,0 +1,19 @@
+# 1. Geometria Basica en Dynamo
+
+## 1.1. Puntos
+La geometria mas sencilla es el punto `Point.ByCoordinates`, `Point.Origin`
+
+## 1.2. Curvas
+En complejidad la geometria mas compleja seguida  punto son las curvas
+* Line: `Line.ByStartPointEndPoint`, `Line.ByStartPointDirection`
+* Arc: `Line. Arc.ByThreePoints`
+* Circle: `Circle.ByPointRadius`, `Arc.ByCenterPointRadius`
+* Polycurve: `Polycurve.ByPoints`
+* Polygon: `Polygon.ByPoints`, `Polygon.RegularPolygon`
+* NurbsCurve: `NurbsCurve.ByPoints`, `NurbsCurve.ByControlPoints`
+
+:::info Usando `List.ShiftIndices`
+Podemos usar el nodo `List.ShiftIndices` para unir puntos mediante 
+el nodo de creacion de lineas `Line.ByStartPointEndPoint`
+:::
+

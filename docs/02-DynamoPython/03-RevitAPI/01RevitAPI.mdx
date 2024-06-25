@@ -79,6 +79,11 @@ objetoEnum = TaskDialogIcon.TaskDialogIconError
 ```
 </details>
 
+En la API de Revit, es muy comun encontrarnos con Enumerations, algunos ejemplos son:
+* `BuiltInParameter`: Enumeration para el listado de identificadores de parametros de sistema
+* `BuiltInCategory`: Enumeration para el listado de identificadores de categorias
+
+
 ## 1.4. Ejemplo Practico Clase TaskDialog
 El siguiente ejemplo, muestra todo lo que hemos aprendido con relacion a las propiedades y metodos, usando la clase de Revit **TaskDialog**:
 
@@ -148,23 +153,53 @@ uidoc = DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument #---> UID
 doc = DocumentManager.Instance.CurrentDBDocument #---> Document
 ```
 
-<details>
+<details close>
   <summary>**Ejemplo: Obtener Version de Revit**</summary>
 
   En este ejemplo se muestra como obetenr la version de Revit que se esta ejecutando
 ```python
-uiapp = DocumentManager.Instance.CurrentUIApplication
+uiapp = DocumentManager.Instance.CurrentUIApplication #---> UIApplication
+app = uiapp.Application #---> Application
+uidoc = DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument #---> UIDocument
+doc = DocumentManager.Instance.CurrentDBDocument #---> Document
 
 # Gets revit version number
-rvtVersion = uiapp.Application.VersionNumber
 # resaltado--next-line
+rvtVersion = app.VersionNumber
+
+# Titulo del proyecto
+# resaltado--next-line
+titulo = doc.Title
+
+# Accediendo a la vista activa
+# resaltado--next-line
+vistaActiva = doc.ActiveView
+
 OUT = rvtVersion
 ```
-
 
   {/* <CodeBlock language="py">{ej_textNoteMayuscula}</CodeBlock> */}
 </details>
 
+<details close>
+  <summary>**Ejemplo: Obtener un elemento**</summary>
+
+  En este ejemplo se muestra como obetenr un elemento a partir del numero de Id
+```python
+doc = DocumentManager.Instance.CurrentDBDocument 
+
+int_id = IN[0]
+id = ElementId(int_id) # ElementId
+
+# Obtener un elemento 
+# resaltado--next-line
+elemento = doc.GetElement(id)
+
+OUT = elemento
+```
+
+  {/* <CodeBlock language="py">{ej_textNoteMayuscula}</CodeBlock> */}
+</details>
 
 ## 1.7. Uso de RevitLookup
 

@@ -1,4 +1,3 @@
-
 import clr
 
 clr.AddReference('RevitAPI')
@@ -9,27 +8,21 @@ from RevitServices.Persistence import DocumentManager
 from RevitServices.Transactions import TransactionManager
 
 doc = DocumentManager.Instance.CurrentDBDocument
-
-
+# Entrada de datos
 muro = UnwrapElement(IN[0])
 nivel = UnwrapElement(IN[1])
-
 elementId_nivel = nivel.Id
 
-
-# Obtenemos el parametro Restriccion superior
+# Obtenemos el parámetro Restricción superior
 paramResSup = muro.get_Parameter(BuiltInParameter.WALL_HEIGHT_TYPE)
 
-
-# Inicializar la transaccion
+# Inicializar la transacción
 TransactionManager.Instance.EnsureInTransaction(doc)
-# Asiganrle un valor a este parametro
+# Asignarle un valor a este parámetro
+# resaltado--next-line
 resultado = paramResSup.Set(elementId_nivel)
-
-# Finalizar la transaccion
+# Finalizar la transacción
 TransactionManager.Instance.TransactionTaskDone()
-
-
 
 # Asigne la salida a la variable OUT.
 OUT = resultado
