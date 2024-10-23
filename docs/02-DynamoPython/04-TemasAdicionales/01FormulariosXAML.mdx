@@ -1,0 +1,213 @@
+---
+sidebar_position: 1
+---
+
+import CodeBlock from '@theme/CodeBlock';
+
+
+# 1. XAML con IronPython
+## Introducción
+XAML (eXtensible Application Markup Language) es un lenguaje basado 
+en XML utilizado para definir interfaces de usuario en aplicaciones 
+WPF (Windows Presentation Foundation). IronPython es una implementación 
+de Python que permite interactuar con .NET Framework, lo que incluye WPF. 
+Esta guía te ayudará a comenzar a crear interfaces de usuario en WPF 
+utilizando XAML e IronPython.
+
+# 2. PyRevit y forms
+https://pyrevitlabs.notion.site/Effective-Input-ea95e95282a24ba9b154ef88f4f8d056
+https://pyrevit1.readthedocs.io/en/latest/outputfeatures.html
+
+
+
+
+
+## Estructura Básica de una Aplicación WPF
+Una aplicación WPF típica tiene dos componentes principales:
+
+* XAML: Define la estructura y el diseño de la interfaz de usuario.
+* Code-Behind: Código en IronPython que maneja la lógica de la aplicación.
+
+https://wpf-tutorial.com/
+
+```xml
+<Window 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Titulo de la ventana" 
+    Height="350" 
+    Width="525">
+    <Grid>
+        <Button Name="myButton" Content="Haz clic aquí" 
+        Width="100" Height="50" VerticalAlignment="Center" 
+        HorizontalAlignment="Center"
+        Click="btnAceptar_Click"/>
+    </Grid>
+</Window>
+```
+
+```py
+# -*- coding: utf-8 -*-
+from pyrevit import forms
+from Autodesk.Revit.UI import *
+
+# Clase Formulario
+class Formulario1(forms.WPFWindow):
+    # Constructor y asignacion de archivo XAML
+    def __init__(self, xaml_file_name):
+        self.form = forms.WPFWindow.__init__(self, xaml_file_name)
+
+    # Event Handlers de la ventana:
+    def btnAceptar_Click(self, sender, e):
+        # Mostramos un TaskDialog al usuario
+        TaskDialog.Show("Titulo", "Ha hecho click en el boton")
+
+# Creamos el objeto formulario
+formulario = Formulario1("formulario1.xaml")
+
+# Mostramos el formulario
+formulario.ShowDialog()
+```
+
+```xml
+<Window 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Titulo de la ventana" 
+    Height="350" 
+    Width="500"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ThreeDBorderWindow">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="45"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="1" Grid.Column="0" 
+                Text="Seleccione Nivel" VerticalAlignment="Center"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" 
+                Name="cmbNiveles"  VerticalAlignment="Center"/>
+        <Button Grid.Row="2" Grid.ColumnSpan="2"
+                Content="Aceptar" 
+                Click="btnAceptar_Click"/>
+    </Grid>
+</Window>
+```
+
+```python
+# -*- coding: utf-8 -*-
+from pyrevit import forms
+from Autodesk.Revit.DB import *
+from Autodesk.Revit.UI import *
+
+doc = __revit__.ActiveUIDocument.Document
+
+# Formulario
+class Formulario1(forms.WPFWindow):
+    # Constructor y asignacion de archivo XAML
+    def __init__(self, xaml_file_name, listaNiveles):
+        self.form = forms.WPFWindow.__init__(self, xaml_file_name)
+        self.cmbNiveles.ItemsSource = listaNiveles
+        self.cmbNiveles.DisplayMemberPath = "Name"
+
+    # Event Handlers de la ventana:
+    def btnAceptar_Click(self, sender, e):
+        # Obtenemos el nivel seleccionado
+        nivelSeleccionado = self.cmbNiveles.SelectedItem
+        # Mostramos un TaskDialog al usuario
+        TaskDialog.Show("Titulo", "Ha seleccionado el nivel {}".format(nivelSeleccionado.Name))
+
+# Obtenemos la lista de niveles
+niveles = FilteredElementCollector(doc).OfClass(Level).ToElements()
+
+# Creamos el objeto formulario
+formulario = Formulario1("formulario1.xaml", niveles)
+
+# Mostramos el formulario
+formulario.ShowDialog()
+```
+
+```xml
+<Window 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Titulo de la ventana" 
+    Height="350" 
+    Width="500"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ThreeDBorderWindow">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel>
+            <TextBlock Text="Selecciona los Niveles:" Margin="10" FontSize="14"/>
+            <ListBox Name="levelsListBox">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button  Content="Aceptar" Margin="10" Width="80" HorizontalAlignment="Right" Click="btnAceptar_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
+```
+
+```py
+# -*- coding: utf-8 -*-
+from pyrevit import forms
+from Autodesk.Revit.DB import *
+from Autodesk.Revit.UI import *
+
+doc = __revit__.ActiveUIDocument.Document
+
+# Clase para los items de Level
+class LevelItem:
+    def __init__(self, name):
+        self.Name = name
+        self.IsChecked = False
+
+# Formulario
+class Formulario1(forms.WPFWindow):
+    # Constructor y asignacion de archivo XAML
+    def __init__(self, xaml_file_name, listaItemNiveles):
+        self.form = forms.WPFWindow.__init__(self, xaml_file_name)
+
+        # Obtener los niveles de Revit
+        self.levels = listaItemNiveles
+
+        # Asignar niveles al ListBox
+        self.levelsListBox.ItemsSource = self.levels
+
+
+    # Event Handlers de la ventana:
+    def btnAceptar_Click(self, sender, e):
+        selected_levels = [level.Name for level in self.levels if level.IsChecked]
+        print("Niveles seleccionados:")
+        for level in selected_levels:
+            print(level)
+        #TaskDialog.Show("Titulo", "Ha seleccionado el nivel {}".format(nivelSeleccionado.Name))
+        self.Close()
+
+
+# Obtenemos la lista de niveles
+niveles = FilteredElementCollector(doc).OfClass(Level).ToElements()
+levels = [LevelItem(level.Name) for level in niveles]
+
+# Creamos el objeto formulario
+formulario = Formulario1("formulario1.xaml", levels)
+
+# Mostramos el formulario
+formulario.ShowDialog()
+
+```
