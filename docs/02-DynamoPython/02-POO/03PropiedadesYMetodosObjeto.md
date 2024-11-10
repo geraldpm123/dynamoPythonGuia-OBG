@@ -2,62 +2,10 @@
 sidebar_position: 3
 ---
 
-# 3. Archivos de Documentación
+# 3. Propiedades y Métodos de Objeto
 
 
-Ahora que comprendemos el funcionamiento de las clases y la herencia entre ellas, es fundamental entender dónde se encuentran establecidas las clases para los objetos de Dynamo y, aún más importante, dónde se localizan para Revit.
-
-La documentación para Dynamo y Revit se puede encontrar en los archivos de extensión ```.chm```. Estos archivos contienen información sobre las clases existentes y públicas de los objetos de Dynamo y Revit. Es esencial consultar esta documentación para comprender completamente la estructura y funcionalidad de las clases disponibles en estas plataformas.
-
-<div style={{ textAlign: 'center' }}>
-  <img  style={{ maxWidth: '300px'}}
-  src={require('./img/archivosDocDynamoRevit.png').default}
-  alt="archivosDocDynamoRevit"/>
-</div>
-
-
-## 3.1. Estructuración de los Archivos de Documentación
-Estos archivos están estructuradas de la siguiente manera:
-
-```
-Biblioteca01
-├── Namespace01
-│   ├── Clase01
-│   |   └── Propiedades
-│   |   └── Métodos
-│   ├── Clase02
-│   |   └── Propiedades
-│   |   └── Métodos
-|   ...
-├── Namespace02
-│   ├── Clase03
-│   |   └── Propiedades
-│   |   └── Métodos
-│   ├── Clase04
-│   |   └── Propiedades
-│   |   └── Métodos
-|   ... 
-Biblioteca02
-├── Namespace03
-│ 
-...
-```
-
-Cada archivo ```.chm``` contiene información de clases de bibliotecas, los cuales están contenidas en archivos ```.dll``` correspondientes a la API de cada software (estos archivos binarios son utilizados como medio de comunicación), mas adelante hablaremos mas acerca de ello. Entre las bibliotecas mas comunes tenemos:
-
-- Revit: ```RevitAPI.dll``` y ```RevitAPIUI.dll```
-- Dynamo: ```ProtoGeometry.dll```, ```RevitServices.dll```, etc
-
-Dentro del archivo .chm se puede ver toda esta información de la siguiente manera:
-
-<div style={{ textAlign: 'center' }}>
-  <img  style={{ maxWidth: '600px'}}
-  src={require('./img/jeraquiaEnChm.png').default}
-  alt="jeraquiaEnChm"/>
-</div>
-
-
-## 3.2. Estructura de una Propiedad
+## 3.1. Estructura de una Propiedad
 
 La documentación ofrece la sintaxis de las propiedades de las clases en el lenguaje ```C#```, saber leer e identificar cada parte es muy importante para poder hacer uso de la propiedad en cuestión. En ```C#``` la sintaxis se presenta de la siguiente forma:
 
@@ -90,7 +38,7 @@ A continuación se muestran dos ejemplos de dos Propiedades extraídos de al doc
 </div>
 :::
 
-## 3.3. Estructura de un Método
+## 3.2. Estructura de un Método
 Al igual que las propiedades, la documentación de los métodos de una clase están en lenguaje ```C#```, la sintaxis se presenta de la siguiente forma:
 
 ```js
@@ -149,4 +97,91 @@ Pero este Metodo es muy particular ya que tiene el modificador ```static```, est
 Los Métodos Estáticos no se llaman directamente desde un objeto, sino que se llaman desde la Clase, pro lo que pueden ser usados para crear objetos de una determinada Clase, o **Instanciar la Clase**
 
 :::
+
+
+
+
+
+
+
+
+
+## 3.3. Uso de Propiedades y llamada a Métodos de Objeto
+
+
+Para usar una propiedad o un método de un objeto de una Clase en Python, primero necesitas tener una instancia válida de esa clase. Luego, puedes acceder a las propiedades y métodos de esa instancia utilizando el operador de punto (```.```).
+
+Supongamos que tienes una clase **Persona** con una propiedad ```Nombre``` y un método ```Saludar()```. Para usarlos, primero creas un objeto de la clase Persona y luego accedes a sus propiedades y métodos de esta manera:
+
+```python
+# Se debe tener una instancia de la Clase "Persona"
+persona1 # Este es un objeto de la clase "Persona" previamente definido
+
+# Usar la propiedad Nombre
+nombreAnterior = persona1.Nombre # Leyendo el valor de la propiedad "Nombre"
+persona1.Nombre = "Juan" # Estableciendo un nuevo valor a la propiedad "Nombre"
+# OJO: solo se puede modificar el valor de una propiedad si tiene el método de acceso "get"
+
+# Usar el método Saludar
+persona1.Saludar()
+```
+
+:::note[Ejemplo: Acceso Propiedades y Métodos de objetos de Dynamo]
+
+El siguiente ejemplo muestra un script de Dynamo en cual tiene dos ```Python Script``` los cuales reciben objetos ya creados para asi utilizar propiedades y llamar métodos, para esto se hizo uso de la documentación para Clases de Dynamo.
+
+<div style={{ textAlign: 'center', maxWidth: '750px' }}>
+  <img  style={{ maxWidth: '750px'}}
+  src={require('./img/PropiedadesYMetodosDynamo.png').default}
+  alt="PropiedadesYMetodosDynamo"/>
+</div>
+
+
+El contenido de los ```Python Script``` son los siguientes:
+
+```py title="Python Script 01"
+# Recibe un objeto Line desde el puerto IN[0]
+linea1 = IN[0]
+
+# Valor de la propiedad "Length"
+long = linea1.Length
+
+# Valor de la propiedad "IsClosed"
+esCurvaCerrada = linea1.IsClosed
+
+# Valor de la propiedad "Direction"
+vecDirection = linea1.Direction
+
+# Devolviendo objetos al entorno Dynamo
+OUT = long, esCurvaCerrada, vecDirection
+```
+
+```py title="Python Script 02"
+# Puertos de entrada del Python Script
+linea1 = IN[0] #objeto de la clase "Line"
+puntoRot = IN[1] # objeto de la clase "Point"
+vecRot = IN[2] # objeto de la clase "Vector"
+
+
+# Llamando al método "Reverse()" para invertir la Linea
+lineaInvert = linea1.Reverse()
+
+# Llamando al método "DoesIntersect()" para evaluar la intersección de la linea con el puntoRot
+seInterseca = linea1.DoesIntersect(puntoRot)
+
+# Llamando al método "ExtendEnd()" para extender la linea un valor de 2.5
+lineaEstirada = linea1.ExtendEnd(2.5)
+
+# Llamando al método "PointAtParameter()" para obtener el punto central de la linea estirada
+puntoCentral = lineaEstirada.PointAtParameter(0.5)
+
+# Llamando al método "Rotate()" para rotar la lineaEstirada 15°
+lineaRotada = lineaEstirada.Rotate(puntoRot, vecRot, 15)
+
+# Devolviendo objetos al entorno Dynamo
+OUT = lineaInvert, seInterseca, lineaEstirada, puntoCentral, lineaRotada
+```
+:::
+
+
 

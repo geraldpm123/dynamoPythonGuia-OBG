@@ -1,0 +1,241 @@
+---
+sidebar_position: 2
+---
+
+
+
+
+# 2. Variables principales en Revit
+Anteriormente mencionamos que dentro de Revit todo lo que encontremos es un objeto perteneciente a una determinada clase,
+y en este contexto existe unos objetos comunes que estaremos usando a menudo, estos objetos pertenecen a las siguientes clases:
+
+* **`UIApplication`** : Un objeto que representa una sesión activa de la interfaz de usuario de Autodesk Revit, proporcionando acceso a métodos de personalización de la interfaz de usuario, eventos, la ventana principal y el documento activo.
+* **`Application`** : Un objeto que representa la aplicación Autodesk Revit, proporcionando acceso a documentos, opciones y otros datos y configuraciones de la aplicación en toda la aplicación.
+* **`UIDocument`** : Un objeto que representa un proyecto de Autodesk Revit abierto en la interfaz de usuario de Revit.
+* **`Document`** : Un objeto que representa un proyecto de Revit abierto.
+
+
+```python title="PythonScript 📦"
+import clr
+
+clr.AddReference("RevitServices")
+from RevitServices.Persistence import DocumentManager
+
+# Principales variables que tal vez usemos
+uiapp = DocumentManager.Instance.CurrentUIApplication #---> UIApplication
+app = uiapp.Application #---> Application
+uidoc = DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument #---> UIDocument
+doc = DocumentManager.Instance.CurrentDBDocument #---> Document
+```
+
+```python title="PyRevit 🧩"
+# -*- coding: utf-8 -*-
+from Autodesk.Revit.DB import *
+
+# Variables comunmente necesarias (ya estan cargadas en PyRevit)
+uiapp = __revit__
+app = __revit__.Application 
+uidoc = __revit__.ActiveUIDocument
+doc = __revit__.ActiveUIDocument.Document
+```
+
+
+<details close>
+  <summary>**Ejemplo: Obtener Version de Revit**</summary>
+
+  En este ejemplo se muestra como obetenr la version de Revit que se esta ejecutando
+```python title="PythonScript 📦"
+import clr
+
+clr.AddReference("RevitServices")
+from RevitServices.Persistence import DocumentManager
+
+# Principales variables que tal vez usemos
+app = uiapp.Application
+doc = DocumentManager.Instance.CurrentDBDocument
+
+# Version de Revit
+# resaltado--next-line
+rvtVersion = app.VersionNumber
+
+# Titulo del proyecto
+# resaltado--next-line
+titulo = doc.Title
+
+# Accediendo a la vista activa
+# resaltado--next-line
+vistaActiva = doc.ActiveView
+
+OUT = rvtVersion
+```
+
+  {/* <CodeBlock language="py">{ej_textNoteMayuscula}</CodeBlock> */}
+</details>
+
+<details close>
+  <summary>**Ejemplo: Acceder a un elemento**</summary>
+
+  En este ejemplo se muestra como obtener un elemento a partir del numero de Id
+```python title="PythonScript 📦"
+import clr
+
+clr.AddReference("RevitServices")
+from RevitServices.Persistence import DocumentManager
+
+# Principales variables que tal vez usemos
+doc = DocumentManager.Instance.CurrentDBDocument
+
+int_id = IN[0]
+id = ElementId(int_id) # ElementId
+
+# Obtener un elemento 
+# resaltado--next-line
+elemento = doc.GetElement(id)
+
+OUT = elemento
+```
+
+  {/* <CodeBlock language="py">{ej_textNoteMayuscula}</CodeBlock> */}
+</details>
+
+
+
+<details close>
+  <summary>**Ejemplo: Exportar imagen desde vista Activa**</summary>
+
+```python title="PythonScript 📦"
+import clr
+
+clr.AddReference("RevitAPI")
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitServices")
+from RevitServices.Persistence import DocumentManager
+
+# Principales variables que tal vez usemos
+doc = DocumentManager.Instance.CurrentDBDocument
+
+
+# INPUTS
+rutaImagen = IN[0]
+
+# resaltado-start
+# Crear el objeto ImageExportOptions
+options = ImageExportOptions()
+options.FilePath = rutaImagen
+options.ExportRange = ExportRange.CurrentView
+
+# Exportando la imagen usando Metodo "ExportImage()" del objeto "Document"
+doc.ExportImage(options)
+# resaltado-end
+
+OUT = 0
+```
+</details>
+
+
+## 1.7. Uso de RevitLookup
+
+
+## 1.8. Plantilla .py para un Python Script
+
+En nuestros Python Scripts la mayoría de veces tendremos código repetitivo, por lo que conviene tener una plantilla con este código repetitivo, de forma tal que cuando editemos nuestro nodo Python Script, podamos borrar lo que no necesitemos y quedarnos con lo que si.
+Dynamo permite realizar estas configuraciones para ello podemos ingresar al [Dyanmo Primer](https://primer.dynamobim.org/10_Custom-Nodes/10-6_Python-Templates.html) para obtener mayor información.
+
+Aqui te dejamos una plantilla que normalmente utilizamos:
+
+```py
+import sys
+import clr
+import math
+
+clr.AddReference('System')
+from System.Collections.Generic import List
+
+# Import Geometry dynamo
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+from Autodesk.DesignScript.Geometry import Curve as CurvaDynamo
+
+# import DCCoreNodes
+clr.AddReference('DSCoreNodes')
+import DSCore
+from DSCore import *
+
+# Import Revit API
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import *
+from Autodesk.Revit.DB import Curve as CurvaRevit
+from Autodesk.Revit.DB.Architecture import *
+from Autodesk.Revit.DB.Structure import *
+
+# Import Revit APIUI
+clr.AddReference('RevitAPIUI')
+from Autodesk.Revit.UI import *
+
+# import Revit Nodes and extensions
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+"""
+#Conversiones de Objetos de Revit a Dynamo y Viceversa
+#---------Revit a Dynamo
+#Elements
+Element.ToDSType(bool); #true if it's an element generated by Revit
+#Geometry
+XYZ.ToPoint() > Point
+XYZ.ToVector() > Vector
+Point.ToProtoType() > Point
+List<XYZ>.ToPoints() > List<Point>
+UV.ToProtoType() > UV
+Curve.ToProtoType() > Curve
+CurveArray.ToProtoType() > PolyCurve
+PolyLine.ToProtoType() > PolyCurve
+Plane.ToPlane() > Plane
+Solid.ToProtoType() > Solid
+Mesh.ToProtoType() > Mesh
+IEnumerable<Mesh>.ToProtoType() > Mesh[]
+Face.ToProtoType() > IEnumerable<Surface>
+Transform.ToCoordinateSystem() > CoordinateSystem
+BoundingBoxXYZ.ToProtoType() > BoundingBox
+
+#---------Dynamo a Revit
+#Elements
+Element.InternalElement
+#Geometry
+Point.ToRevitType() > XYZ
+Vector.ToRevitType() > XYZ
+Plane.ToPlane() > Plane
+List<Point>.ToXyzs() > List<XYZ>
+Curve.ToRevitType() > Curve
+PolyCurve.ToRevitType() > CurveLoop
+Surface.ToRevitType() > IList<GeometryObject>
+Solid.ToRevitType() > IList<GeometryObject>
+Mesh.ToRevitType() > IList<GeometryObject>
+CoordinateSystem.ToTransform() > Transform
+CoordinateSystem.ToRevitBoundingBox() > BoundingBoxXYZ
+BoundingBox.ToRevitType() > BoundingBoxXYZ
+"""
+
+
+# Import Document Manager and TransactionManager
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+# Principales variables que tal vez usemos
+uiapp = DocumentManager.Instance.CurrentUIApplication
+app = uiapp.Application
+doc = DocumentManager.Instance.CurrentDBDocument
+uidoc = DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument
+
+# Utilización de Transacciones
+TransactionManager.Instance.EnsureInTransaction(doc)
+
+TransactionManager.Instance.TransactionTaskDone()
+
+OUT = 0
+```

@@ -2,85 +2,8 @@
 sidebar_position: 4
 ---
 
-# 4. Objetos en Acción
 
-## 4.1. Uso de Propiedades y llamada a Métodos de Objeto
-
-
-Para usar una propiedad o un método de un objeto de una Clase en Python, primero necesitas tener una instancia válida de esa clase. Luego, puedes acceder a las propiedades y métodos de esa instancia utilizando el operador de punto (```.```).
-
-Supongamos que tienes una clase **Persona** con una propiedad ```Nombre``` y un método ```Saludar()```. Para usarlos, primero creas un objeto de la clase Persona y luego accedes a sus propiedades y métodos de esta manera:
-
-```python
-# Se debe tener una instancia de la Clase "Persona"
-persona1 # Este es un objeto de la clase "Persona" previamente definido
-
-# Usar la propiedad Nombre
-nombreAnterior = persona1.Nombre # Leyendo el valor de la propiedad "Nombre"
-persona1.Nombre = "Juan" # Estableciendo un nuevo valor a la propiedad "Nombre"
-# OJO: solo se puede modificar el valor de una propiedad si tiene el método de acceso "get"
-
-# Usar el método Saludar
-persona1.Saludar()
-```
-
-:::note[Ejemplo: Acceso Propiedades y Métodos de objetos de Dynamo]
-
-El siguiente ejemplo muestra un script de Dynamo en cual tiene dos ```Python Script``` los cuales reciben objetos ya creados para asi utilizar propiedades y llamar métodos, para esto se hizo uso de la documentación para Clases de Dynamo.
-
-<div style={{ textAlign: 'center', maxWidth: '750px' }}>
-  <img  style={{ maxWidth: '750px'}}
-  src={require('./img/PropiedadesYMetodosDynamo.png').default}
-  alt="PropiedadesYMetodosDynamo"/>
-</div>
-
-
-El contenido de los ```Python Script``` son los siguientes:
-
-```py title="Python Script 01"
-# Recibe un objeto Line desde el puerto IN[0]
-linea1 = IN[0]
-
-# Valor de la propiedad "Length"
-long = linea1.Length
-
-# Valor de la propiedad "IsClosed"
-esCurvaCerrada = linea1.IsClosed
-
-# Valor de la propiedad "Direction"
-vecDirection = linea1.Direction
-
-# Devolviendo objetos al entorno Dynamo
-OUT = long, esCurvaCerrada, vecDirection
-```
-
-```py title="Python Script 02"
-# Puertos de entrada del Python Script
-linea1 = IN[0] #objeto de la clase "Line"
-puntoRot = IN[1] # objeto de la clase "Point"
-vecRot = IN[2] # objeto de la clase "Vector"
-
-
-# Llamando al método "Reverse()" para invertir la Linea
-lineaInvert = linea1.Reverse()
-
-# Llamando al método "DoesIntersect()" para evaluar la intersección de la linea con el puntoRot
-seInterseca = linea1.DoesIntersect(puntoRot)
-
-# Llamando al método "ExtendEnd()" para extender la linea un valor de 2.5
-lineaEstirada = linea1.ExtendEnd(2.5)
-
-# Llamando al método "PointAtParameter()" para obtener el punto central de la linea estirada
-puntoCentral = lineaEstirada.PointAtParameter(0.5)
-
-# Llamando al método "Rotate()" para rotar la lineaEstirada 15°
-lineaRotada = lineaEstirada.Rotate(puntoRot, vecRot, 15)
-
-# Devolviendo objetos al entorno Dynamo
-OUT = lineaInvert, seInterseca, lineaEstirada, puntoCentral, lineaRotada
-```
-:::
-## 4.2. Creación de Objetos
+# 4. Creación de Objetos
 
 Como vimos en el punto anterior, se pudo acceder a las propiedades y métodos de un objeto, pero para ello el objeto debe existir, entonces ahora veremos como crear objetos utilizando la documentación de la API pública.
 
@@ -96,7 +19,7 @@ No todas las clases ofrecen **Constructores** y/o **Métodos Estáticos** para i
 :::
 
 
-## 4.3. Importación de Bibliotecas
+## 4.1. Importación de Bibliotecas
 
 Para poder usar los **Métodos Estáticos** y los **Constructores**, es necesario realizar las importaciones de bibliotecas, ya que en ambos casos se usa la llamada a la clase directamente.
 
@@ -168,7 +91,7 @@ from RevitServices.Transactions import TransactionManager
 OUT = 0
 ```
 
-## 4.4. Métodos Estáticos para instanciar un objeto
+## 4.2. Métodos Estáticos para instanciar un objeto
 
 En C# (recordemos que la documentación esta en este lenguaje), los métodos estáticos se definen con la palabra clave ```static``` y pertenecen a la clase en lugar de a una instancia específica de la clase. Esto significa que pueden ser invocados sin necesidad de crear una instancia de la clase.
 
@@ -208,7 +131,7 @@ Ademas de ser útiles para instanciar un objeto, los métodos estáticos son út
 
 * Implementación de patrones de diseño: En algunos casos, los métodos estáticos se utilizan en la implementación de patrones de diseño como Singleton, Factory, etc.
 
-## 4.4. Constructores para instanciar un objeto
+## 4.3. Constructores para instanciar un objeto
 
 Un constructor es un método especial dentro de una clase que se llama automáticamente cuando se crea una nueva instancia de la clase. Su propósito principal es inicializar el objeto recién creado.
 
