@@ -107,6 +107,12 @@ const config = {
             position: 'left',
             label: 'Dynamo II',
           },
+          {
+            type: 'docSidebar',
+            sidebarId: 'guiaWPF',
+            position: 'left',
+            label: 'WPF',
+          },
           /*{to: '/blog', label: 'Blog', position: 'left'},*/
           {
             href: 'https://www.youtube.com/@GeraldPachariMillio',
